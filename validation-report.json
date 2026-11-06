@@ -1,0 +1,22 @@
+{
+  "status": "local_public_copy_prepared",
+  "public_images": 24,
+  "withheld_images": 68,
+  "external_requests": false,
+  "deployment_verified": false,
+  "checks": [
+    "24 selected generated image pixels inspected",
+    "No raw PDF/DOCX/ZIP or presentation renders included",
+    "Local-link validation performed",
+    "Email/phone/private-path scan performed",
+    "All internal HTML links and fragment anchors resolve; zero broken links",
+    "No external asset URLs or runtime network dependencies",
+    "CSS mobile breakpoint at 780px reviewed; one-column galleries and fluid image widths"
+  ],
+  "not_verified": [
+    "GitHub remote commit and Pages deployment",
+    "Independent image copyright clearance",
+    "Blender and model training execution",
+    "Rendered browser layout: Chromium launch blocked by host socket operation permission, including elevated attempt"
+  ]
+}
