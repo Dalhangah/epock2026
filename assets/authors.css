@@ -1,0 +1,5 @@
+
+/* Contributor identity is separate from progress status. */
+.author-list{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0 2rem}.author-link{display:inline-flex;align-items:center;gap:.65rem;text-decoration:none;font-weight:800}.author-icon{display:inline-flex;align-items:center;justify-content:center;flex:0 0 2.6rem;width:2.6rem;height:2.6rem;border-radius:50%;font-size:.8rem;font-weight:900;line-height:1;color:#fff;background:#151515;letter-spacing:0}.author-icon.ha{background:#ed6b00;color:#fff}.author-credit{margin:0 0 1rem}.author-profile{scroll-margin-top:11rem}.author-profile h2{display:flex;align-items:center;gap:.8rem}.site-header .header-inner>nav{flex-wrap:wrap}.author-note{font-size:.9rem;color:#666}
+
+.recent-records ul{list-style:none;padding:0;margin:.75rem 0}.recent-records li{border-bottom:1px solid #ddd}.recent-records a{display:block;padding:.7rem 0;text-decoration:none}.recent-records a:hover{text-decoration:underline}.recent-records h3{margin-bottom:.5rem}
