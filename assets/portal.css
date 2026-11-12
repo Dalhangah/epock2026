@@ -15,3 +15,18 @@
 
 /* Workflow numbers represent order, never parent/child depth. */
 .workflow-order{list-style:none;padding:0;margin:0 0 32px;display:flex;flex-wrap:wrap;gap:8px 14px}.workflow-order li{display:flex;align-items:center;gap:14px}.workflow-order li:not(:last-child):after{content:"→";color:var(--muted)}.workflow-order a{font-size:13px;min-height:44px;display:inline-flex;align-items:center}.workflow-order a:hover{color:var(--dark-orange)}@media(max-width:700px){.workflow-order{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px}.workflow-order li:not(:last-child):after{content:none}.workflow-order a{font-size:12px}}
+
+/* Sticky primary navigation + sibling stage navigation. */
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.site-header .stage-subnav{display:block;overflow-x:auto;overflow-y:hidden;white-space:nowrap;flex-wrap:nowrap;border-top:1px solid var(--line);scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior-x:contain;padding:0;scroll-padding-inline:20px}
+.site-header .stage-subnav::-webkit-scrollbar{display:none}
+.stage-subnav-inner{display:flex;flex-wrap:nowrap;gap:8px;width:max-content;min-width:100%;max-width:none;margin:0 auto;padding:8px max(24px,calc((100vw - 1160px)/2))}
+.site-header .stage-subnav a{flex:none;display:flex;align-items:center;justify-content:center;white-space:nowrap;padding:12px 17px;border:0;font-size:15px;font-weight:700;min-height:48px;text-decoration:none;border-radius:2px;color:var(--ink)}
+.site-header .stage-subnav a[aria-current]{background:var(--ink);color:var(--paper);border:0}
+.site-header .stage-subnav a:hover{background:var(--soft);color:var(--dark-orange)}
+.stage-subnav:focus-visible{outline:2px solid var(--dark-orange);outline-offset:-3px}
+.site-header .stage-subnav a:focus-visible{outline:3px solid var(--dark-orange);outline-offset:-3px}
+.progress-page .page-heading{padding:28px 0 20px;max-width:850px}.progress-page .page-heading .large{font-size:20px}.progress-page .page-heading>p:last-child{margin-bottom:0}
+html{scroll-padding-top:var(--sticky-header-offset,180px)}.progress-page .task-accordion,.progress-page [id]{scroll-margin-top:var(--sticky-header-offset,180px)}
+@media(max-width:700px){.stage-subnav-inner{gap:4px;padding:6px 18px}.site-header .stage-subnav a{font-size:14px;padding:11px 14px;min-height:46px}.progress-page .page-heading{padding-top:22px}.progress-page .page-heading .large{font-size:18px}}
+@media print{.progress-page h1.sr-only{position:static!important;width:auto!important;height:auto!important;margin:0 0 20px!important;overflow:visible!important;clip:auto!important;white-space:normal!important}.site-header .stage-subnav{display:none}}
