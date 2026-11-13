@@ -1,0 +1,111 @@
+{
+  "review_date": "2026-11-13",
+  "scope": "Attached PNG visual/file review and four sidecar JSON content reviews; not dataset acceptance",
+  "images": [
+    {
+      "shared_date": "2026-11-12",
+      "original_filename": "MESH_BASE__BODY_BASE_UNVERIFIED__POSE_CURRENT__F00086__front__silhouette.png",
+      "public_file": "images/render-tests/2026-11-12/silhouette.png",
+      "style_from_filename": "silhouette",
+      "width": 768,
+      "height": 768,
+      "mode": "RGB",
+      "sha256": "78924f4e20453bc8d8db10a73c26f2432bb43d4d76b6d623cbe50510b9389e18",
+      "png_text_metadata_keys": []
+    },
+    {
+      "shared_date": "2026-11-12",
+      "original_filename": "MESH_BASE__BODY_BASE_UNVERIFIED__POSE_CURRENT__F00086__front__outline_features.png",
+      "public_file": "images/render-tests/2026-11-12/outline_features.png",
+      "style_from_filename": "outline_features",
+      "width": 768,
+      "height": 768,
+      "mode": "RGB",
+      "sha256": "3fc988b0387696bc23b5eedb55dc08436c68137f3ccf213f77e631d5e958f521",
+      "png_text_metadata_keys": []
+    },
+    {
+      "shared_date": "2026-11-12",
+      "original_filename": "MESH_BASE__BODY_BASE_UNVERIFIED__POSE_CURRENT__F00086__front__volume_gray.png",
+      "public_file": "images/render-tests/2026-11-12/volume_gray.png",
+      "style_from_filename": "volume_gray",
+      "width": 768,
+      "height": 768,
+      "mode": "RGB",
+      "sha256": "0d80211b7306a1d783398b6ebb7fbe9b7cf4d15952c2517014322235d32a5556",
+      "png_text_metadata_keys": []
+    },
+    {
+      "shared_date": "2026-11-13",
+      "original_filename": "MESH_BASE__BODY_BASE_UNVERIFIED__POSE_CURRENT__F00086__front__outline_features(1).png",
+      "public_file": "images/render-tests/2026-11-13/outline_features.png",
+      "style_from_filename": "outline_features",
+      "width": 768,
+      "height": 768,
+      "mode": "RGB",
+      "sha256": "397932b98ed32533a599d4dc0f9c807071ee3f9cceaa19dd35af74edf812ee0a",
+      "png_text_metadata_keys": []
+    },
+    {
+      "shared_date": "2026-11-13",
+      "original_filename": "MESH_BASE__BODY_BASE_UNVERIFIED__POSE_CURRENT__F00086__front__silhouette(1).png",
+      "public_file": "images/render-tests/2026-11-13/silhouette.png",
+      "style_from_filename": "silhouette",
+      "width": 768,
+      "height": 768,
+      "mode": "RGB",
+      "sha256": "ec33b7c9f743ef66a490aaf613eee82d80fde20880039fa5c96319c5f8250de7",
+      "png_text_metadata_keys": []
+    },
+    {
+      "shared_date": "2026-11-13",
+      "original_filename": "MESH_BASE__BODY_BASE_UNVERIFIED__POSE_CURRENT__F00086__front__toon_gray.png",
+      "public_file": "images/render-tests/2026-11-13/toon_gray.png",
+      "style_from_filename": "toon_gray",
+      "width": 768,
+      "height": 768,
+      "mode": "RGB",
+      "sha256": "5091c2679cce9088f078937f5a05318da0793a11c71ee1e1c4e371ba50663e9e",
+      "png_text_metadata_keys": []
+    },
+    {
+      "shared_date": "2026-11-13",
+      "original_filename": "MESH_BASE__BODY_BASE_UNVERIFIED__POSE_CURRENT__F00086__front__volume_gray(1).png",
+      "public_file": "images/render-tests/2026-11-13/volume_gray.png",
+      "style_from_filename": "volume_gray",
+      "width": 768,
+      "height": 768,
+      "mode": "RGB",
+      "sha256": "d8e60c70027a93aeeb2fdd83a0c0097affd6ebfcc4a06a9fc36b86ad07132989",
+      "png_text_metadata_keys": []
+    }
+  ],
+  "sidecar_json_review": {
+    "status": "reviewed_content_reproduction_unverified",
+    "source": "Blender work conversation uploads, 2026-11-13",
+    "script_version_recorded": "0.3.1",
+    "camera_issue": "All matrix_world values identity and position_world zero; rotation_euler_rad X approximately pi/2. Verify evaluated camera transform and export timing.",
+    "review_fields": "all unreviewed",
+    "image_hash_binding": "No hash in original sidecars; transferred PNG filenames may include (1). Source-folder linkage not verified.",
+    "actual_blend_execution": "not performed",
+    "files": [
+      {
+        "filename": "MESH_BASE__BODY_BASE_UNVERIFIED__POSE_CURRENT__F00086__front__outline_features.json",
+        "sha256": "36e23319e14125cf83a0dbaf49c4330230d482291bda64736c9e2bcab88e823b"
+      },
+      {
+        "filename": "MESH_BASE__BODY_BASE_UNVERIFIED__POSE_CURRENT__F00086__front__volume_gray.json",
+        "sha256": "75509693ed916aad8b70b6a4cf77a4504e86286dce02a93d05e5306100837936"
+      },
+      {
+        "filename": "MESH_BASE__BODY_BASE_UNVERIFIED__POSE_CURRENT__F00086__front__silhouette.json",
+        "sha256": "9808d59caa6dd074cd29d9c5586d096cf71aaac6993a978d33e90f4a6659f0dc"
+      },
+      {
+        "filename": "MESH_BASE__BODY_BASE_UNVERIFIED__POSE_CURRENT__F00086__front__toon_gray.json",
+        "sha256": "6c91e97170ecc72d49bb9f65af55742b7bf99918c1484eefb2e765dd702869a2"
+      }
+    ]
+  },
+  "render_execution_version": "sidecars state 0.3.1; actual executing code not verified"
+}
