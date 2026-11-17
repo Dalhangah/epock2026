@@ -1,0 +1,6 @@
+.task-list{display:flex;flex-direction:column;min-width:0}
+.task-list>.task-accordion{min-width:0;width:100%;box-sizing:border-box}
+.task-highlight{display:inline-block;margin-right:.55em;padding:.15em .45em;border:1px solid currentColor;border-radius:4px;color:var(--orange,#e75a16);font-size:.65em;font-weight:800;vertical-align:middle}
+.task-updated{margin:0 0 1rem;font-size:.75rem;line-height:1.6;color:#666;font-weight:400;overflow-wrap:anywhere}
+.task-updated a{color:inherit;text-underline-offset:3px}
+@media print{.task-highlight{color:#222}}
