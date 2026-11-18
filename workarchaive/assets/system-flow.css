@@ -202,3 +202,20 @@ main li {
 .mermaid {
   margin: 0;
 }
+
+.diagram-zoom {
+  display: flex;
+  gap: 10px;
+  margin: 12px 0;
+}
+.diagram-zoom button {
+  padding: 10px 16px;
+  min-height: 44px;
+  border: 1px solid #aaa;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.diagram-zoom button:focus-visible {
+  outline: 3px solid #b15418;
+}

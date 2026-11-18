@@ -13,7 +13,7 @@
     <link href="../assets/authors.css?v=20261112-authors" rel="stylesheet" />
     <link href="../assets/render-review.css?v=20261113" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/task-order.css?v=1" />
-    <link rel="stylesheet" href="../assets/system-flow.css" />
+    <link rel="stylesheet" href="../assets/system-flow.css?v=mermaid2" />
   </head>
   <body>
     <a class="skip" href="#main">본문으로 건너뛰기</a>
@@ -63,8 +63,13 @@
           <a href="#diagram-scroll" target="_blank" rel="noopener">흐름도 영역으로 이동 ↓</a
           ><a href="../assets/diagrams/system-flow.mmd" download>Mermaid 원본 다운로드</a>
         </p>
+        <div class="diagram-zoom" aria-label="흐름도 크기 조절">
+          <button type="button" data-zoom="out">− 축소</button
+          ><button type="button" data-zoom="reset">기본 크기</button
+          ><button type="button" data-zoom="in">+ 확대</button>
+        </div>
         <p id="diagram-help" class="caption">
-          모바일에서는 아래 그림을 좌우로 밀어 보거나 ‘크게 보기’를 눌러 확대하세요. 단계별 설명은
+          모바일에서는 아래 그림을 좌우로 밀어 보거나 확대·축소 버튼을 사용하세요. 단계별 설명은
           그림 아래에서 펼칠 수 있습니다.
         </p>
         <div
@@ -372,6 +377,6 @@ flowchart TB
     <script src="../assets/task-order.js?v=3"></script>
     <script defer="" src="../assets/navigation.js?v=20261112-subnav3"></script>
     <script src="../assets/vendor/mermaid-12.3.0.min.js" defer></script>
-    <script src="../assets/diagrams/render-flow.js" defer></script>
+    <script src="../assets/diagrams/render-flow.js?v=2" defer></script>
   </body>
 </html>
