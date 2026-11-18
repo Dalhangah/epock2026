@@ -37,7 +37,7 @@
         </div>
       </nav>
     </header>
-    <main data-task-default="new" id="main" data-new-task="tiny-v052" data-next-task="pilot-next">
+    <main data-task-default="new" id="main" data-new-task="tiny-v053" data-next-task="pilot-next">
       <nav aria-label="현재 위치" class="breadcrumbs sr-only">
         <ol>
           <li><a href="../index.html">홈</a></li>
@@ -62,10 +62,187 @@
       </p>
       <details
         class="task-accordion active"
+        id="tiny-v053"
+        data-task-number="11"
+        data-task-order="110"
+        open
+      >
+        <summary>
+          <span class="task-number">11</span
+          ><span class="task-title">VR0.53 · 흰 배경보다 선에 집중하는 가중 손실 실험</span
+          ><span class="task-status active">● 1 epoch 실행 · 생성 품질 미달</span>
+        </summary>
+        <div class="accordion-body">
+          <p class="task-updated">
+            내용 업데이트 · <time datetime="2026-11-19T00:38:00+09:00">2026-11-19 00:38 KST</time> ·
+            저장된 코드·실행 출력·이미지 대조
+          </p>
+          <p>
+            <strong
+              >선 영역의 오차는 소폭 줄었지만, 원하는 직선을 새로 생성하는 데 성공한 단계는
+              아닙니다.</strong
+            >
+            20 epoch 기준 모델의 가중치만 이어받아 선에 더 큰 손실 가중치를 주고, 추가 1 epoch에서
+            점검을 위해 중단했습니다.
+          </p>
+          <h3>왜 바꾸었나</h3>
+          <p>
+            검증 이미지에서 선이 차지하는 평균 비율은 약 0.87%입니다. 전체 픽셀 평균만 보면 넓은 흰
+            배경의 오차가 작아지는 효과가 선의 학습 부족을 가릴 수 있어, 선과 배경 오차를 나누어
+            기록하고 선 영역을 강조했습니다. 이는 코드와 수치에 따른 연구 해석이며, 원인을 최종
+            확정한 것은 아닙니다.
+          </p>
+          <h3>실제로 실행한 설정</h3>
+          <ul>
+            <li>원본 Tiny-UNet VR0.02 구조 유지: RGB 128×128, class ID 3, 원본 12차원 조건.</li>
+            <li>
+              직선 train 384 / validation 96, 그룹 누출 0. 곡선·자유곡선·구도선은 실제 학습에서
+              제외.
+            </li>
+            <li>
+              이전 20 epoch / 960 step 모델의 가중치만 재사용. optimizer와 난수 상태는 새로 시작한
+              warm start이며, 그대로 이어 학습한 resume와 다릅니다.
+            </li>
+            <li>
+              검은 선 중심 최대 6배, 인접 2픽셀에는 최대 +1.5 가중치. 깨끗한 원본 이미지로 마스크를
+              만들고 이미지별 총 가중치로 정규화합니다.
+            </li>
+            <li>
+              ᾱ ≥ 0.10일 때만 선 집중 가중치를 적용합니다. 그보다 강한 노이즈에서는 일반 noise MSE를
+              사용합니다.
+            </li>
+            <li>
+              학습률 0.0002, batch 8, 추가 1 epoch = 48 step. 목표 설정은 2 epoch지만
+              PAUSE_AFTER_EPOCH=1에 따라 중단된 실행입니다.
+            </li>
+          </ul>
+          <h3>동일 검증 96장의 전후 비교</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>지표</th>
+                  <th>epoch 0 · 시작점</th>
+                  <th>epoch 1 · 추가 학습</th>
+                  <th>해석</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>선 영역 noise MSE</td>
+                  <td>0.416686</td>
+                  <td>0.412460</td>
+                  <td>약 1.01% 감소</td>
+                </tr>
+                <tr>
+                  <td>배경 noise MSE</td>
+                  <td>0.033858</td>
+                  <td>0.035261</td>
+                  <td>증가</td>
+                </tr>
+                <tr>
+                  <td>전체 raw noise MSE</td>
+                  <td>0.039837</td>
+                  <td>0.041405</td>
+                  <td>증가</td>
+                </tr>
+                <tr>
+                  <td>가중 검증 손실</td>
+                  <td>0.057640</td>
+                  <td>0.059374</td>
+                  <td>증가 · 종합 개선 판단 불가</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            선에 배분된 실효 가중치 비중은 약 3.58%, 집중 가중치가 켜진 검증 비율은 약
+            84.38%였습니다. '6배'가 전체 손실의 6배 또는 선 비중 6배를 그대로 뜻하지는 않습니다.
+            추가 1 epoch만으로 학습 효율이나 충분한 학습 횟수를 결론 내리지 않습니다.
+          </p>
+          <h3>복원 진단과 새로운 이미지 생성을 구분</h3>
+          <figure>
+            <a
+              href="../assets/images/pipeline/tiny-v053-denoising.webp"
+              target="_blank"
+              rel="noopener"
+              ><img
+                src="../assets/images/pipeline/tiny-v053-denoising.webp"
+                alt="원본 직선과 t=0,8,16,24,30,31 복원 진단. 약한 노이즈에서는 선이 보이지만 높은 노이즈에서는 형태를 잃음"
+                loading="lazy"
+                style="width:100%;height:auto"
+            /></a>
+            <figcaption>
+              원본에 노이즈를 더한 뒤 복원하는 진단입니다. 무작위 노이즈에서 새로 생성한 결과가
+              아닙니다. t=31 선 영역 복원 MAE는 1.02892로 높은 노이즈 구간의 한계가 남아 있습니다.
+            </figcaption>
+          </figure>
+          <figure>
+            <a
+              href="../assets/images/pipeline/tiny-v053-generated.webp"
+              target="_blank"
+              rel="noopener"
+              ><img
+                src="../assets/images/pipeline/tiny-v053-generated.webp"
+                alt="수평선, 수직선, 굵은선, 오른쪽 위치 목표 모식도와 epoch 1 생성 이미지. 생성 결과에는 잡음이 남음"
+                loading="lazy"
+                style="width:100%;height:auto"
+            /></a>
+            <figcaption>
+              epoch 1의 실제 생성 비교판: 각 쌍의 왼쪽은 목표 모식도, 오른쪽은 생성 결과입니다. 4개
+              결과 모두 요청한 직선 형태를 충족했다고 보기 어렵습니다. 모식도는 정확한 정답 이미지가
+              아니며, center_right는 학습 위치 범위 밖 조건입니다.
+            </figcaption>
+          </figure>
+          <h3>확인된 저장과 남은 검증</h3>
+          <ul>
+            <li>
+              epoch 0과 1에서 각 4장 생성, latest 체크포인트 step 48 / next_epoch 2 / cursor 0의
+              읽기와 optimizer 포함 확인.
+            </li>
+            <li>중단된 Colab 세션에서 정확히 이어 학습하는 것은 아직 별도 실증이 필요합니다.</li>
+            <li>
+              best_validation은 epoch 0 기준값을 최솟값 후보에 넣지 않아, 기준보다 손실이 커진 epoch
+              1도 best로 저장되었습니다. 파일 이름만으로 품질 향상을 판단하지 않습니다.
+            </li>
+            <li>
+              samples_index 로그가 epoch 0·1 모두 total=4로 표시되어 누적 이력 보존 여부를 추가
+              점검해야 합니다.
+            </li>
+          </ul>
+          <h3>다음 실험 방향 · 아직 실행 결과 없음</h3>
+          <p>
+            작가는 선을 충분히 학습할 때까지 추가 학습하고 선 가중치를 더 조정하는 방향을
+            요청했습니다. 다만 단순히 epoch나 가중치를 늘리면 해결된다고 보장할 수 없습니다. 같은
+            seed·검증 세트로 선/배경 오차와 실제 생성 형태를 함께 비교하고, 기준 모델을 보존한
+            상태에서 조정 효과를 확인합니다. 수렴·조건 반응·고노이즈 구간을 확인한 뒤 곡선·자유곡선
+            누적 학습으로 확장합니다.
+          </p>
+          <p class="caption">
+            버전 이력: 앞의 VR0.52 이름 파일에는 구형 VR0.53 코드와 추가 진단 셀이 실행되어
+            있었습니다. 이번 선 집중 개선본은 별도
+            <code>EPOCK_PIPELINE_VR0.53_Line_Foreground_Training.ipynb</code>입니다. 과거 20 epoch
+            결과와 이번 추가 1 epoch 결과를 같은 실행으로 합치지 않습니다.
+          </p>
+          <p>
+            <a
+              href="https://colab.research.google.com/drive/1XJ6NA9GKMjMGHA0MHyogdxSLHvrmo5jv"
+              target="_blank"
+              rel="noopener"
+              >VR0.53 실행 노트북 보기 ↗</a
+            >
+          </p>
+          <p class="caption">
+            실행 ID: run_20261118T152614Z_06ae4541 · 시작 2026-11-19 00:26 KST. 저장된 출력 기준이며
+            이후 실행은 포함하지 않습니다.
+          </p>
+        </div>
+      </details>
+      <details
+        class="task-accordion active"
         id="tiny-v052"
         data-task-number="10"
         data-task-order="100"
-        open
       >
         <summary>
           <span class="task-number">10</span>
