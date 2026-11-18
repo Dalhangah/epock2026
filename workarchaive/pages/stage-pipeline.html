@@ -11,7 +11,9 @@
     <title>파이프라인 제작 · EPOCK2026</title>
     <link href="../assets/portal.css?v=20261112-subnav3" rel="stylesheet" />
     <link href="../assets/authors.css?v=20261112-authors" rel="stylesheet" />
-    <style>.pipeline-map .data-flow{grid-template-columns:1fr;margin:20px 0}.pipeline-map .data-flow li{display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;border-top:0;border-left:3px solid var(--orange)}.pipeline-map .data-flow br{display:initial}.pipeline-map .data-flow span{font-weight:400;overflow-wrap:anywhere}.pipeline-map .editorial-panel{min-width:0}</style>
+    <style>
+      .pipeline-map .data-flow{grid-template-columns:1fr;margin:20px 0}.pipeline-map .data-flow li{display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;border-top:0;border-left:3px solid var(--orange)}.pipeline-map .data-flow br{display:initial}.pipeline-map .data-flow span{font-weight:400;overflow-wrap:anywhere}.pipeline-map .editorial-panel{min-width:0}
+    </style>
     <link rel="stylesheet" href="../assets/task-order.css?v=1" />
   </head>
   <body class="progress-page">
@@ -35,7 +37,7 @@
         </div>
       </nav>
     </header>
-    <main data-task-default="new" id="main" data-new-task="tiny-v051" data-next-task="pilot-next">
+    <main data-task-default="new" id="main" data-new-task="tiny-v052" data-next-task="pilot-next">
       <nav aria-label="현재 위치" class="breadcrumbs sr-only">
         <ol>
           <li><a href="../index.html">홈</a></li>
@@ -47,10 +49,10 @@
         <p class="eyebrow sr-only">PROJECT PROGRESS / 04</p>
         <h1 class="sr-only">파이프라인 제작</h1>
         <p class="large">각 도구를 하나의 흐름으로 잇습니다.</p>
-        <span class="label">조건부 Tiny-UNet 1 epoch 실행 · 생성 품질은 검증 중</span>
+        <span class="label">직선 20 epoch 실행 · 고노이즈 복원 및 혼합 학습은 다음 검증 과제</span>
         <p class="caption">
-          2026.11.18 업데이트 · VR0.51의 직선 학습·검증·4조건 생성 결과를 추가했습니다. 이전 시험
-          기록은 아래에 보존합니다.
+          2026.11.18 업데이트 · VR0.52 파일에 저장된 20 epoch 실행과 복원 진단을 추가했습니다. 내부
+          코드는 VR0.53이며, 이전 시험 기록은 아래에 보존합니다.
         </p>
       </div>
       <p class="accordion-help">
@@ -60,10 +62,145 @@
       </p>
       <details
         class="task-accordion active"
+        id="tiny-v052"
+        data-task-number="10"
+        data-task-order="100"
+        open
+      >
+        <summary>
+          <span class="task-number">10</span>
+          <span class="task-title">VR0.52 파일 실행: 직선 20 epoch와 고노이즈 복원 진단</span>
+          <span class="task-status active">● 실행 확인 · 생성 품질 개선 필요</span>
+        </summary>
+        <div class="accordion-body">
+          <p class="task-updated">
+            내용 업데이트 · <time datetime="2026-11-18T23:18:00+09:00">2026-11-18 23:18 KST</time> ·
+            저장된 실행 출력·진단 이미지 대조
+          </p>
+          <p>
+            <b
+              >학습·평가·생성·저장은 20 epoch 끝까지 실행되었지만, 원하는 선을 생성하는 성능이
+              검증된 것은 아닙니다.</b
+            >
+            노이즈 예측 오차는 줄었으나, 노이즈가 많은 입력에서 선을 복원하는 데 한계가
+            드러났습니다.
+          </p>
+          <p class="caption">
+            파일명은 EPOCK_PIPELINE_VR0.52_TinyUNet_Research.ipynb, 내부 제목·실행 보조 코드는
+            VR0.53입니다. 09 파이프라인 대화에서도 이 파일명 차이를 확인했습니다. 실행 시작:
+            2026-11-18 21:43 KST.
+          </p>
+          <div class="two-col">
+            <article class="editorial-panel">
+              <h3>실제로 학습한 범위</h3>
+              <ul>
+                <li>직선 384장 학습 / 96장 검증, 배치 크기 8, 총 20 epoch·960 step</li>
+                <li>RGB 128×128, TinyUNet 기본 채널 16, 확산 32단계, 학습률 0.0002</li>
+                <li>사전학습 가중치 없는 모델, line 클래스 ID 3 + 원본 12차원 조건</li>
+                <li>
+                  전체 데이터 분할 검사에서 그룹 누출 0. 호·자유곡선·구도 안내선은 실제 학습에서
+                  제외
+                </li>
+              </ul>
+              <p>
+                전체 유형을 섞어 순서를 검사한 출력은 <b>학습 실행이 아닌 데이터 감사</b>입니다.
+                이번 결과를 혼합 선 학습 성공으로 해석하지 않습니다.
+              </p>
+            </article>
+            <article class="editorial-panel">
+              <h3>저장된 결과</h3>
+              <ul>
+                <li>평균 학습 MSE: 0.771868 → 0.042771</li>
+                <li>평균 검증 MSE: 0.544080 → 0.039837</li>
+                <li>매 epoch 4조건 PNG·metrics 존재: 20 epoch, 생성 PNG 총 80장</li>
+                <li>
+                  latest 체크포인트 읽기: step 960 / next_epoch 21 / cursor 0 / optimizer 존재
+                </li>
+              </ul>
+              <p>
+                MSE는 노이즈 예측 오차이며 정확도나 작품 완성도 백분율이 아닙니다. next_epoch 21은
+                21 epoch를 학습했다는 뜻이 아닙니다.
+              </p>
+            </article>
+          </div>
+          <h3>복원 진단: 약한 노이즈의 선은 남지만, 강한 노이즈에서는 형태가 사라짐</h3>
+          <figure>
+            <a
+              href="../assets/images/pipeline/tiny-v052-diagnostic.webp"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                src="../assets/images/pipeline/tiny-v052-diagnostic.webp"
+                alt="원본 직선과 timestep 0, 8, 16, 24, 30, 31의 복원 비교. 뒤로 갈수록 잡음이 늘고 선이 사라진다."
+                loading="lazy"
+                style="width:100%;height:auto"
+              />
+            </a>
+            <figcaption>
+              사용자가 공유한 실제 진단 화면에서 결과 영역을 추출했습니다. 원본에 노이즈를 더한 뒤
+              복원한 검사로, 무작위 노이즈에서 새 그림을 만드는 생성 시험과는 다릅니다. 클릭하면
+              확대됩니다.
+            </figcaption>
+          </figure>
+          <p>
+            노이즈 예측 MSE는 t=8에서 약 0.03346, t=31에서 약 0.03224로 비슷하지만, 전체 복원 MAE는
+            약 0.03778 → 1.02245로 커집니다. 낮은 노이즈 MSE만으로 선 복원이나 조건 제어 성공을
+            판단할 수 없습니다. 고노이즈 구간과 선 영역의 오차를 함께 확인해야 합니다.
+          </p>
+          <h3>기록·저장 기능과 남은 점검</h3>
+          <ul>
+            <li>
+              TensorBoard 2.21.0 준비 및 Drive 이벤트 동기화 출력 확인. 대시보드 화면 자체는
+              노트북에서 숨김 출력이라 별도 확인 필요
+            </li>
+            <li>
+              10배치 주기, 학습 배치 MSE 최저 갱신, 검증 MSE 최저 갱신 저장을 실제 로그에서 확인
+            </li>
+            <li>
+              best_train_step.pt / best_validation.pt 존재. 최저 배치 MSE 0.032494(step 953), 최저
+              검증 MSE 0.039837(epoch 20)
+            </li>
+            <li>
+              체크포인트를 읽은 것과 런타임 단절 후 정확히 이어 학습한 것은 별개. 실제 단절·재개
+              검증은 아직 미확인
+            </li>
+            <li>
+              이미지 인덱스 갱신 로그의 total이 매 epoch 4로 남습니다. 80장 전체 누적 목록인지 점검
+              필요
+            </li>
+          </ul>
+          <h3>09 대화에서 정한 다음 방향 · 아직 실행 결과 아님</h3>
+          <p>
+            직선만 학습된 현재 결과를 출발점으로, 기존 유형을 유지하며 새 유형을 더 많이 섞는
+            <b>누적형 학습</b>을 계획합니다. 직선 → 직선+곡선 → 직선+곡선+자유곡선 → 세 유형 균형
+            단계로 확장합니다. 구체 비율과 조건 표현은 후속 코드에서 검증하며, 현 노트북이 이미
+            지원한다고 기록하지 않습니다.
+          </p>
+          <p>
+            현재 설정의 Drive 마운트 위치는 기존 공통 경로 가이드와 다릅니다. 후속 코드에서는 경로
+            선언을 상단에 모으고 공통 가이드와 맞추되, 이번 실행 기록은 소급 변경하지 않습니다.
+          </p>
+          <p>
+            <a
+              href="https://drive.google.com/file/d/1o05ziJG_wcW28p4ztvCzqcs2h7dieY5q/view?usp=sharing"
+              target="_blank"
+              rel="noopener"
+              >실행 결과가 저장된 공유 노트북 보기</a
+            >
+            · <a href="#tiny-v051">이전 VR0.51 시험과 비교</a>
+          </p>
+          <p class="caption">
+            근거: 공유 노트북의 데이터 검사·학습·결과 검증·timestep 진단 셀, 사용자 제공 진단 화면,
+            2026-11-18의 09 파이프라인 대화. 로컬에서 학습을 다시 실행한 결과가 아닙니다.
+          </p>
+        </div>
+      </details>
+      <details
+        class="task-accordion active"
         id="tiny-v051"
         data-task-number="09"
         data-task-order="90"
-        open
       >
         <summary>
           <span class="task-number">09</span
