@@ -37,7 +37,7 @@
         </div>
       </nav>
     </header>
-    <main data-task-default="new" id="main" data-new-task="tiny-v054" data-next-task="pilot-next">
+    <main data-task-default="new" id="main" data-new-task="tiny-v055" data-next-task="pilot-next">
       <nav aria-label="현재 위치" class="breadcrumbs sr-only">
         <ol>
           <li><a href="../index.html">홈</a></li>
@@ -62,10 +62,80 @@
       </p>
       <details
         class="task-accordion active"
+        id="tiny-v055"
+        data-task-number="13"
+        data-task-order="130"
+        open
+      >
+        <summary>
+          <span class="task-number">13</span>
+          <span class="task-title">VR0.55 · 80 에폭까지 이어 학습</span>
+          <span class="task-status active">● 학습 실행 완료 · 직선 생성 미통과</span>
+        </summary>
+        <div class="accordion-body">
+          <p class="task-updated">
+            내용 업데이트 · <time datetime="2026-11-19T08:45:00+09:00">2026-11-19 08:45 KST</time>
+          </p>
+          <p>
+            <strong>숫자는 좋아졌지만, 생성된 그림에서는 아직 직선을 알아볼 수 없습니다.</strong>
+            직선 학습 384장·검증 96장으로 진행한 실험이며, 곡선이나 인체 학습 결과는 아닙니다.
+          </p>
+          <h3>VR0.54에서 이어서 실행</h3>
+          <p>
+            Colab T4 실행 로그에서 VR0.54의 5 에폭·240 스텝 체크포인트 전체 상태를 가져와
+            6 에폭부터 80 에폭(누적 3,840 스텝)까지 진행한 것을 확인했습니다.
+            VR0.55의 결과는 별도 폴더에 저장됐고, 기존 VR0.54 기록과 분리됩니다.
+            종료 사유는 목표 에폭 도달이며 생성 검수 통과로 종료한 것은 아닙니다.
+          </p>
+          <p>
+            시간 기록에서 6 에폭은 248초, 7 에폭은 4.2초로 차이가 컸지만, 두 에폭 모두 384장·48 스텝을
+            처리했습니다. 이 시간 차이의 원인은 처리량 로그만으로 확정할 수 없습니다.
+          </p>
+          <h3>검증 결과 · 같은 기준으로 비교</h3>
+          <ul>
+            <li>선 영역 노이즈 예측 오차(MSE): 0.241347 → 0.106703 (55.79% 감소).</li>
+            <li>전체 노이즈 예측 오차(MSE): 0.031343 → 0.009144 (70.83% 감소).</li>
+            <li>배경 노이즈 예측 오차(MSE): 0.026402 → 0.006876 (73.96% 감소).</li>
+            <li>가중 손실: 0.057516 → 0.019947 (65.32% 감소).</li>
+          </ul>
+          <h3>80 에폭에서 실제로 나온 그림</h3>
+          <figure>
+            <a href="../assets/images/pipeline/tiny-v055-generated.webp">
+              <img
+                src="../assets/images/pipeline/tiny-v055-generated.webp"
+                alt="네 가지 요청의 목표 직선과 실제 이미지 비교. 실제 출력에서는 직선 대신 색 잡음이 보입니다."
+                loading="lazy"
+                width="1074"
+                height="192"
+                style="width:100%;height:auto"
+              />
+            </a>
+            <figcaption>
+              각 쌍의 왼쪽은 목표 모식도, 오른쪽은 실제 생성 이미지입니다.
+              오른쪽으로 이동한 직선 요청은 학습 범위 밖 사례입니다.
+            </figcaption>
+          </figure>
+          <p>
+            마지막 에폭에서 학습 범위 안의 기하 조건 3개는 모두 미통과였습니다. 노이즈를 예측하는
+            오차와 무작위 노이즈에서 선을 만들어 내는 능력은 별개입니다.
+            몇 에폭을 더 돌리면 해결되는지는 이번 기록만으로 알 수 없습니다.
+            다음 검토에서는 같은 조건·시드로 비교하면서 강한 노이즈에서의 선 복원과 새 이미지 생성이
+            어디서 달라지는지 먼저 살펴봅니다. 선 영역 손실 조정 등은 아직 시험 후보입니다.
+          </p>
+          <h3>창작 메모 · 작품 속 동생의 마음</h3>
+          <p>
+            수치는 나아지는데 화면에는 여전히 잡음뿐. 몇 번 더 기다리면 첫 선이 보일까?
+            자기가 만든 아바타를 기다리는 동생도 이런 마음이지 않을까.
+            작가가 학습을 지켜보며 떠올린 연결이며, 확정된 작품 장면은 아닙니다.
+          </p>
+          <p><a href="#tiny-v054">이전 VR0.54 실험</a></p>
+        </div>
+      </details>
+      <details
+        class="task-accordion active"
         id="tiny-v054"
         data-task-number="12"
         data-task-order="120"
-        open
       >
         <summary>
           <span class="task-number">12</span
