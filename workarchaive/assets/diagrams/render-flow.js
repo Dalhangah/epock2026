@@ -23,26 +23,24 @@
         padding: 18,
       },
     });
-    await mermaid.run({ nodes: [document.getElementById("system-mermaid")] });
-    if (!document.querySelector("#system-mermaid svg")) throw new Error("Diagram missing");
-    const svg = document.querySelector("#system-mermaid svg");
-    const viewport = document.querySelector(".diagram-scroll");
+    await mermaid.run({ nodes: document.querySelectorAll(".mermaid") });
+    if (!document.querySelector(".mermaid svg")) throw new Error("Diagram missing");
+    const svgs = [...document.querySelectorAll(".mermaid svg")];
     let zoom = 1;
-    let fitWidth = 0;
     const applySize = () => {
-      const style = getComputedStyle(viewport);
-      const paddingX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
-      const paddingY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
-      const box = svg.viewBox.baseVal;
-      const availableWidth = Math.max(1, viewport.clientWidth - paddingX);
-      const availableHeight = Math.max(1, window.innerHeight * 0.7 - paddingY);
-      fitWidth = Math.min(availableWidth, (availableHeight * box.width) / box.height);
-      svg.style.width = `${fitWidth * zoom}px`;
-      svg.style.maxWidth = "none";
+      svgs.forEach((svg) => {
+        const viewport = svg.closest(".diagram-scroll");
+        const style = getComputedStyle(viewport);
+        const paddingX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+        const box = svg.viewBox.baseVal;
+        const width = Math.min(viewport.clientWidth - paddingX, (490 * box.width) / box.height);
+        svg.style.width = `${Math.max(1, width) * zoom}px`;
+        svg.style.maxWidth = "none";
+      });
       status.textContent =
         zoom === 1
-          ? "전체 흐름을 화면에 맞췄습니다. 글씨를 자세히 보려면 확대하세요."
-          : `전체 보기 대비 ${Math.round(zoom * 100)}%. 화면을 밀어 다른 부분을 확인하세요.`;
+          ? "단계 순서대로 전체 보기 중입니다. 자세히 보려면 확대하세요."
+          : `전체 보기 대비 ${Math.round(zoom * 100)}%. 각 그림 안에서 이동할 수 있습니다.`;
     };
     applySize();
     document.querySelectorAll("[data-zoom]").forEach((button) => {
@@ -52,12 +50,13 @@
             ? 1
             : Math.max(1, Math.min(16, zoom * (button.dataset.zoom === "in" ? 1.5 : 1 / 1.5)));
         applySize();
-        if (zoom === 1) viewport.scrollTo(0, 0);
+        if (zoom === 1)
+          document.querySelectorAll(".diagram-scroll").forEach((el) => el.scrollTo(0, 0));
       });
     });
     // Refit on mobile rotation/container changes without discarding manual zoom.
     const observer = new ResizeObserver(applySize);
-    observer.observe(viewport);
+    document.querySelectorAll(".diagram-scroll").forEach((el) => observer.observe(el));
     window.addEventListener("resize", applySize);
   } catch (error) {
     status.textContent =

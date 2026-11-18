@@ -13,7 +13,7 @@
     <link href="../assets/authors.css?v=20261112-authors" rel="stylesheet" />
     <link href="../assets/render-review.css?v=20261113" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/task-order.css?v=1" />
-    <link rel="stylesheet" href="../assets/system-flow.css?v=mermaid3" />
+    <link rel="stylesheet" href="../assets/system-flow.css?v=mermaid4" />
   </head>
   <body>
     <a class="skip" href="#main">본문으로 건너뛰기</a>
@@ -61,89 +61,148 @@
         </p>
         <p class="diagram-actions">
           <a href="#diagram-scroll" target="_blank" rel="noopener">흐름도 영역으로 이동 ↓</a
-          ><a href="../assets/diagrams/system-flow.mmd" download>Mermaid 원본 다운로드</a>
+          ><a href="#flow-data">단계별 Mermaid 원본 ↓</a>
         </p>
         <div class="diagram-zoom" aria-label="흐름도 크기 조절">
           <button type="button" data-zoom="out">− 축소</button
-          ><button type="button" data-zoom="reset">전체 보기 크기</button
+          ><button type="button" data-zoom="reset">전체 보기</button
           ><button type="button" data-zoom="in">+ 확대</button>
         </div>
         <p id="diagram-help" class="caption">
-          모바일에서는 아래 그림을 좌우로 밀어 보거나 확대·축소 버튼을 사용하세요. 단계별 설명은
-          그림 아래에서 펼칠 수 있습니다.
+          PC는 왼쪽 위 → 오른쪽 위 → 왼쪽 아래 순서, 모바일은 위에서 아래로 읽습니다. 서비스 구성은
+          후속 단계가 아닌 지원 구조입니다. 확대하면 각 그림 안에서 이동할 수 있습니다. 단계별
+          설명은 그림 아래에서 펼칠 수 있습니다.
         </p>
-        <div
-          class="diagram-scroll"
-          id="diagram-scroll"
-          tabindex="0"
-          role="region"
-          aria-label="전체 시스템 흐름도 가로 스크롤 영역"
-          aria-describedby="diagram-help"
-        >
-          <pre class="mermaid" id="system-mermaid">
-%% EPOCK2026 system architecture. Status verified as of 2026-11-18.
-%% Solid arrows: intended forward flow, NOT proof of automation.
-%% Dotted arrows: review feedback / future service integration.
+        <div id="diagram-scroll" class="diagram-grid">
+          <article class="diagram-panel" id="flow-data">
+            <h3>01–03 · 데이터 준비</h3>
+            <div
+              class="diagram-scroll"
+              tabindex="0"
+              role="region"
+              aria-label="01–03 · 데이터 준비 흐름도"
+            >
+              <pre class="mermaid">
 flowchart TB
-  accTitle: EPOCK2026 전체 시스템 흐름
-  accDescr: 데이터 생성과 작가 검수, 버전 고정과 분할 후 Tiny-UNet과 LoRA 두 경로로 학습한다. 지표와 생성 품질을 평가하고 에폭 서사, 구조화된 요청, 이미지 검수, 시계열 웹툰으로 연결한다. 독자 피드백은 검토 후 개선으로 돌아간다. 초록은 실행 확인, 주황은 진행 중, 회색 점선은 계획이다.
-  subgraph DATA[1 · 학습데이터 준비]
-    direction LR
-    D[&quot;● 이미지 + JSON + 엑셀&lt;br/&gt;선 · 도형 · 인체 / 포즈 / 구도&quot;]
-    Q{&quot;● 작가 검수&lt;br/&gt;형태 · 관절 · 메타데이터&quot;}
-    V[&quot;✓ 데이터 버전 · 분할&lt;br/&gt;선 데이터 그룹 누출 0 확인&quot;]
-    D --&gt; Q --&gt;|승인| V
-    Q -. 수정 .-&gt; D
-  end
-  subgraph TRAIN[2 · 두 학습 경로]
-    direction LR
-    A[&quot;✓ A · Tiny-UNet VR0.02&lt;br/&gt;사전학습 없이 · 직선 20 epoch 확인&quot;]
-    B[&quot;○ B · SD 1.5 캐릭터 LoRA&lt;br/&gt;별도 계획 · 실행 완료 미확인&quot;]
-  end
-  V --&gt; A
-  V --&gt; B
-  A --&gt; R[&quot;✓ A 일부 확인 · 실험 기록&lt;br/&gt;지표 · 가중치 · 체크포인트 · 생성 이미지&quot;]
-  B -. 계획 .-&gt; R
-  R --&gt; G{&quot;● 품질 관문&lt;br/&gt;수치 + 형태 + 조건 반응&quot;}
-  G -. 미달 / 재검수 .-&gt; Q
-  G -. 재학습 .-&gt; A
-  subgraph STORY[3 · 기록을 작품으로]
-    direction TB
-    N[&quot;○ 에폭별 창작 서사&lt;br/&gt;자매가 각자의 아바타를 만드는 과정&quot;]
-    P[&quot;○ 구조화된 생성 요청&lt;br/&gt;인물 · 동작 · 감정 표현 · 구도 · 스타일&quot;]
-    I[&quot;○ 이미지 생성 + 작가 검수&lt;br/&gt;배경 / 인물 분리 · 실패작 게시 차단&quot;]
-    W[&quot;○ 시계열 SNS 웹툰&lt;br/&gt;HTML 레이어 · 대사 JSON · 댓글 / 좋아요&quot;]
-    N --&gt; P --&gt; I --&gt; W
-  end
-  G --&gt;|검토 후 채택| N
-  H[&quot;○ 작가가 별도로 확정&lt;br/&gt;자매 등장 전체서사 · 실루엣 · 결말&quot;] -. 창작 기준 .-&gt; N
-  W --&gt; F[&quot;○ 독자 반응 · 오류 신고&lt;br/&gt;사람 검토 / 동의 / 권리 확인&quot;]
-  F -. 승인된 개선만 .-&gt; D
-  subgraph SERVICE[4 · 서비스 구성 계획]
-    direction LR
-    UI[&quot;○ 독자 브라우저&lt;br/&gt;작품 / 발표 / 아카이브&quot;]
-    WEB[&quot;○ PHP · CodeIgniter 4&lt;br/&gt;권한 · 요청 검증 · 상태 관리&quot;]
-    PY[&quot;○ 별도 Python 추론 서버&lt;br/&gt;검수된 모델 로드 · 이미지 생성&quot;]
-    UI &lt;--&gt;|웹 요청| WEB
-    WEB &lt;--&gt;|API 요청 / 결과| PY
-    FUT[&quot;○ 향후 참여 기능&lt;br/&gt;따라그리기 비교 · 선/문장 조건 변환&quot;]
-    FUT -.-&gt; WEB
-  end
-  W -. 웹 제공 .-&gt; UI
-  P -. 지원 조건만 .-&gt; WEB
-  PY -. 생성 결과 .-&gt; I
-  classDef verified fill:#e8f3ed,stroke:#2a7045,color:#163f29,stroke-width:2px
-  classDef working fill:#fff0de,stroke:#be671b,color:#65380f,stroke-width:2px
-  classDef planned fill:#f3f3f1,stroke:#83837c,color:#353530,stroke-width:1.5px,stroke-dasharray:5 4
-  class V,A,R verified
-  class D,Q,G working
-  class B,N,P,I,W,H,F,UI,WEB,PY,FUT planned
+accTitle: 01부터 03 데이터 준비
+D[&quot;01 ● 데이터 생성&lt;br/&gt;이미지 + JSON + 엑셀&lt;br/&gt;선 · 도형 · 인체 / 포즈 / 구도&quot;]
+Q{&quot;02 ● 작가 검수&lt;br/&gt;형태 · 관절 · 메타데이터&quot;}
+V[&quot;03 ✓ 버전 고정 · 분할&lt;br/&gt;선 데이터 그룹 누출 0 확인&quot;]
+D --&gt; Q --&gt;|승인| V
+Q -. 수정 후 다시 검수 .-&gt; D
+class V verified
+class D,Q working
+
+classDef verified fill:#e8f3ed,stroke:#2a7045,color:#163f29,stroke-width:2px
+classDef working fill:#fff0de,stroke:#be671b,color:#65380f,stroke-width:2px
+classDef planned fill:#f3f3f1,stroke:#83837c,color:#353530,stroke-width:1.5px,stroke-dasharray:5 4
 </pre
-          >
-          <p id="diagram-status" role="status">
-            흐름도를 불러오는 중입니다. 표시되지 않으면 아래 단계별 설명을 펼쳐 보세요.
-          </p>
+              >
+            </div>
+            <p class="diagram-connection">03 승인 후 → 04 학습으로</p>
+            <a href="../assets/diagrams/flow-data.mmd" download>이 도식 Mermaid 원본</a>
+          </article>
+          <article class="diagram-panel" id="flow-training">
+            <h3>04–06 · 학습과 품질 검증</h3>
+            <div
+              class="diagram-scroll"
+              tabindex="0"
+              role="region"
+              aria-label="04–06 · 학습과 품질 검증 흐름도"
+            >
+              <pre class="mermaid">
+flowchart TB
+accTitle: 04부터 06 두 학습 경로와 품질 검증
+V[&quot;03 승인 데이터&quot;]
+A[&quot;04-A ✓ Tiny-UNet VR0.02&lt;br/&gt;사전학습 없이&lt;br/&gt;직선 20 epoch 확인&quot;]
+B[&quot;04-B ○ SD 1.5 캐릭터 LoRA&lt;br/&gt;별도 계획 · 실행 미확인&quot;]
+R[&quot;05 ✓ A 일부 확인 · 실험 기록&lt;br/&gt;지표 · 가중치 · 체크포인트&lt;br/&gt;생성 이미지&quot;]
+G{&quot;06 ● 품질 관문&lt;br/&gt;수치 · 형태 · 조건 반응&quot;}
+V --&gt; A --&gt; R
+V -. 별도 계획 .-&gt; B -.-&gt; R
+R --&gt; G
+class V,A,R verified
+class G working
+class B planned
+
+classDef verified fill:#e8f3ed,stroke:#2a7045,color:#163f29,stroke-width:2px
+classDef working fill:#fff0de,stroke:#be671b,color:#65380f,stroke-width:2px
+classDef planned fill:#f3f3f1,stroke:#83837c,color:#353530,stroke-width:1.5px,stroke-dasharray:5 4
+</pre
+              >
+            </div>
+            <p class="diagram-connection">
+              06 채택 후 → 07 서사로 · 미달이면 02 재검수 / 04 재학습
+            </p>
+            <a href="../assets/diagrams/flow-training.mmd" download>이 도식 Mermaid 원본</a>
+          </article>
+          <article class="diagram-panel" id="flow-creation">
+            <h3>07–11 · 서사에서 작품으로</h3>
+            <div
+              class="diagram-scroll"
+              tabindex="0"
+              role="region"
+              aria-label="07–11 · 서사에서 작품으로 흐름도"
+            >
+              <pre class="mermaid">
+flowchart TB
+accTitle: 07부터 11 창작과 독자 피드백
+N[&quot;07 ○ 에폭별 창작 서사&lt;br/&gt;자매가 각자의 아바타를 만드는 과정&quot;]
+P[&quot;08 ○ 구조화된 생성 요청&lt;br/&gt;인물 · 동작 · 감정 · 구도 · 스타일&quot;]
+I[&quot;09 ○ 이미지 생성 + 작가 검수&lt;br/&gt;배경 / 인물 분리 · 실패작 게시 차단&quot;]
+W[&quot;10 ○ 시계열 SNS 웹툰&lt;br/&gt;HTML 레이어 · 대사 JSON&lt;br/&gt;댓글 / 좋아요&quot;]
+F[&quot;11 ○ 독자 반응 · 오류 신고&quot;]
+N --&gt; P --&gt; I --&gt; W --&gt; F
+class N,P,I,W,F planned
+
+classDef verified fill:#e8f3ed,stroke:#2a7045,color:#163f29,stroke-width:2px
+classDef working fill:#fff0de,stroke:#be671b,color:#65380f,stroke-width:2px
+classDef planned fill:#f3f3f1,stroke:#83837c,color:#353530,stroke-width:1.5px,stroke-dasharray:5 4
+</pre
+              >
+            </div>
+            <p class="diagram-connection">
+              11 피드백 → 사람 검토·동의·권리 확인 → 승인된 개선만 01로
+            </p>
+            <a href="../assets/diagrams/flow-creation.mmd" download>이 도식 Mermaid 원본</a>
+          </article>
+          <article class="diagram-panel" id="flow-service">
+            <h3>지원 구조 · 단계번호와 별개</h3>
+            <div
+              class="diagram-scroll"
+              tabindex="0"
+              role="region"
+              aria-label="지원 구조 · 단계번호와 별개 흐름도"
+            >
+              <pre class="mermaid">
+flowchart TB
+accTitle: 웹서비스 지원 구조 계획
+UI[&quot;○ 독자 브라우저&lt;br/&gt;작품 / 발표 / 아카이브&quot;]
+WEB[&quot;○ PHP · CodeIgniter 4&lt;br/&gt;권한 · 요청 검증 · 상태 관리&quot;]
+PY[&quot;○ 별도 Python 추론 서버&lt;br/&gt;검수된 모델 로드 · 이미지 생성&quot;]
+FUT[&quot;○ 향후 참여 기능&lt;br/&gt;따라그리기 비교&lt;br/&gt;선 / 문장 조건 변환&quot;]
+UI &lt;--&gt;|웹 요청 / 응답| WEB
+WEB &lt;--&gt;|API 요청 / 결과| PY
+FUT -.-&gt; WEB
+class UI,WEB,PY,FUT planned
+
+classDef verified fill:#e8f3ed,stroke:#2a7045,color:#163f29,stroke-width:2px
+classDef working fill:#fff0de,stroke:#be671b,color:#65380f,stroke-width:2px
+classDef planned fill:#f3f3f1,stroke:#83837c,color:#353530,stroke-width:1.5px,stroke-dasharray:5 4
+</pre
+              >
+            </div>
+            <p class="diagram-connection">
+              08 요청 → 웹서버 → Python 추론 → 09 이미지 검수 · 10 작품을 브라우저로 제공
+            </p>
+            <a href="../assets/diagrams/flow-service.mmd" download>이 도식 Mermaid 원본</a>
+          </article>
         </div>
+        <p class="diagram-author-note">
+          <strong>작가의 별도 결정:</strong> 자매 등장 전체서사·실루엣·결말은 작가가 확정합니다.
+          이는 07의 에폭별 자동 서사와 구분되는 창작 기준입니다.
+        </p>
+        <p id="diagram-status" role="status">흐름도를 불러오는 중입니다.</p>
         <p class="caption">
           초록 실선 상자: 실행 확인 · 주황 상자: 진행·검수 중 · 회색 점선 상자: 설계·계획. 점선
           화살표는 피드백 또는 향후 연결입니다. A의 실행 결과를 B의 완료로 해석하지 않습니다.
@@ -377,6 +436,6 @@ flowchart TB
     <script src="../assets/task-order.js?v=3"></script>
     <script defer="" src="../assets/navigation.js?v=20261112-subnav3"></script>
     <script src="../assets/vendor/mermaid-12.3.0.min.js" defer></script>
-    <script src="../assets/diagrams/render-flow.js?v=3" defer></script>
+    <script src="../assets/diagrams/render-flow.js?v=4" defer></script>
   </body>
 </html>

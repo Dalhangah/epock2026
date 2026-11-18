@@ -1,0 +1,14 @@
+flowchart TB
+accTitle: 웹서비스 지원 구조 계획
+UI["○ 독자 브라우저<br/>작품 / 발표 / 아카이브"]
+WEB["○ PHP · CodeIgniter 4<br/>권한 · 요청 검증 · 상태 관리"]
+PY["○ 별도 Python 추론 서버<br/>검수된 모델 로드 · 이미지 생성"]
+FUT["○ 향후 참여 기능<br/>따라그리기 비교<br/>선 / 문장 조건 변환"]
+UI <-->|웹 요청 / 응답| WEB
+WEB <-->|API 요청 / 결과| PY
+FUT -.-> WEB
+class UI,WEB,PY,FUT planned
+
+classDef verified fill:#e8f3ed,stroke:#2a7045,color:#163f29,stroke-width:2px
+classDef working fill:#fff0de,stroke:#be671b,color:#65380f,stroke-width:2px
+classDef planned fill:#f3f3f1,stroke:#83837c,color:#353530,stroke-width:1.5px,stroke-dasharray:5 4

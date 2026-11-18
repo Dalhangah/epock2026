@@ -1,0 +1,13 @@
+flowchart TB
+accTitle: 01부터 03 데이터 준비
+D["01 ● 데이터 생성<br/>이미지 + JSON + 엑셀<br/>선 · 도형 · 인체 / 포즈 / 구도"]
+Q{"02 ● 작가 검수<br/>형태 · 관절 · 메타데이터"}
+V["03 ✓ 버전 고정 · 분할<br/>선 데이터 그룹 누출 0 확인"]
+D --> Q -->|승인| V
+Q -. 수정 후 다시 검수 .-> D
+class V verified
+class D,Q working
+
+classDef verified fill:#e8f3ed,stroke:#2a7045,color:#163f29,stroke-width:2px
+classDef working fill:#fff0de,stroke:#be671b,color:#65380f,stroke-width:2px
+classDef planned fill:#f3f3f1,stroke:#83837c,color:#353530,stroke-width:1.5px,stroke-dasharray:5 4

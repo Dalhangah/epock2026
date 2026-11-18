@@ -1,0 +1,13 @@
+flowchart TB
+accTitle: 07부터 11 창작과 독자 피드백
+N["07 ○ 에폭별 창작 서사<br/>자매가 각자의 아바타를 만드는 과정"]
+P["08 ○ 구조화된 생성 요청<br/>인물 · 동작 · 감정 · 구도 · 스타일"]
+I["09 ○ 이미지 생성 + 작가 검수<br/>배경 / 인물 분리 · 실패작 게시 차단"]
+W["10 ○ 시계열 SNS 웹툰<br/>HTML 레이어 · 대사 JSON<br/>댓글 / 좋아요"]
+F["11 ○ 독자 반응 · 오류 신고"]
+N --> P --> I --> W --> F
+class N,P,I,W,F planned
+
+classDef verified fill:#e8f3ed,stroke:#2a7045,color:#163f29,stroke-width:2px
+classDef working fill:#fff0de,stroke:#be671b,color:#65380f,stroke-width:2px
+classDef planned fill:#f3f3f1,stroke:#83837c,color:#353530,stroke-width:1.5px,stroke-dasharray:5 4

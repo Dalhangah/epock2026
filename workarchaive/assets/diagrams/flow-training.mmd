@@ -1,0 +1,17 @@
+flowchart TB
+accTitle: 04부터 06 두 학습 경로와 품질 검증
+V["03 승인 데이터"]
+A["04-A ✓ Tiny-UNet VR0.02<br/>사전학습 없이<br/>직선 20 epoch 확인"]
+B["04-B ○ SD 1.5 캐릭터 LoRA<br/>별도 계획 · 실행 미확인"]
+R["05 ✓ A 일부 확인 · 실험 기록<br/>지표 · 가중치 · 체크포인트<br/>생성 이미지"]
+G{"06 ● 품질 관문<br/>수치 · 형태 · 조건 반응"}
+V --> A --> R
+V -. 별도 계획 .-> B -.-> R
+R --> G
+class V,A,R verified
+class G working
+class B planned
+
+classDef verified fill:#e8f3ed,stroke:#2a7045,color:#163f29,stroke-width:2px
+classDef working fill:#fff0de,stroke:#be671b,color:#65380f,stroke-width:2px
+classDef planned fill:#f3f3f1,stroke:#83837c,color:#353530,stroke-width:1.5px,stroke-dasharray:5 4

@@ -219,3 +219,54 @@ main li {
 .diagram-zoom button:focus-visible {
   outline: 3px solid #b15418;
 }
+
+/* Independent Mermaid panels keep feedback edges from reversing the stage order. */
+.diagram-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+.diagram-panel {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #d7d0c7;
+  border-radius: 8px;
+  background: #fff;
+}
+.diagram-panel h3 {
+  margin: 0 0 16px;
+  font-size: 1.2rem;
+}
+.diagram-panel .diagram-scroll {
+  padding: 12px;
+  max-height: 540px;
+  border: 0;
+  border-radius: 0;
+}
+.diagram-panel .mermaid svg {
+  margin-inline: auto;
+}
+.diagram-connection {
+  font-weight: 700;
+  color: #7c471e;
+  font-size: 0.9rem;
+}
+.diagram-author-note {
+  padding: 18px;
+  background: #faf1e6;
+}
+@media (max-width: 760px) {
+  .diagram-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .diagram-panel {
+    padding: 14px;
+  }
+}
+@media print {
+  .diagram-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
