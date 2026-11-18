@@ -1,1 +1,91 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101626"><title>EPOCK SNS · MOCK</title><link rel="stylesheet" href="styles.css"></head><body><div id="app" class="app"><header class="top"><div><strong>EPOCK <span class="soft">/ SNS</span></strong><small>가상 콘텐츠·기능 검토용</small></div><label class="language">언어 <select id="locale" aria-label="공식 언어"><option value="ko-KR">한국어</option><option value="en-US">English</option></select></label></header><aside class="notice" role="note">MOCK · 예시 대사·이미지는 실제 학습 결과나 확정된 서사가 아닙니다.<br><b>이 브라우저에만 저장되며 다른 관람객과 공유되지 않음.</b></aside><nav class="accounts" aria-label="자매 계정"><button id="account-younger" aria-pressed="true">동생 · 제작 기록</button><button id="account-older" aria-pressed="false">언니 · 럭시</button></nav><main><section class="profile" id="profile" aria-label="시점별 프로필"></section><section class="stories" aria-label="유효한 스토리"><h2>스토리 <small>작품 시간 24시간 · 임시 경계 정책</small></h2><div id="stories"></div></section><section class="feed" aria-label="게시물"><h2>게시물 <small id="epoch-label"></small></h2><div id="posts"></div></section><section class="compose"><h2>로컬 참여</h2><label>닉네임 <input id="nickname" maxlength="24" autocomplete="off" placeholder="랜덤 닉네임"></label><p class="muted">로그인·다중 사용자·실시간 통신·Drive 동기화·AI 자동 생성: 미연결</p></section></main><footer class="timebar"><div class="timehead"><label for="date">작품 날짜</label><input id="date" type="date" min="2120-01-01" max="2126-11-30" value="2120-01-01"></div><div class="timeactions"><button id="prev" aria-label="작품 날짜 하루 이전">◀ 하루 전</button><input id="day-slider" aria-label="작품 날짜 이동" type="range" min="0" max="2525" value="0"><button id="next" aria-label="작품 날짜 하루 이후">하루 뒤 ▶</button></div><div class="muted">샘플: 1 epoch = 작품 1일 · 학습 시각 별도 · 두 모델 epoch 자동 대응 없음</div></footer><div class="alert" id="alert" hidden role="status" aria-live="polite"><span>과거 게시물에 새 댓글이 있습니다. 현재 화면은 유지됩니다.</span><button id="refresh-comments">댓글만 갱신</button><button id="dismiss-alert">나중에</button></div><button class="testbtn" id="simulate" type="button">테스트: 과거 댓글 알림</button><details class="policies"><summary>샘플 임시 정책 · 미연결 기능</summary><p>댓글: 게시물별 누적 노출, 작성 시각 오름차순 (미확정). 스토리: 게시 시각 포함, 정확히 24시간에 숨김 (미확정). 작품 시간대: 시간대 없는 가상 시각으로 12:00 조회 (미확정). 샘플 epoch 기준일: 2120-01-01 (미확정). 미래 기록은 선택 작품 시각 이후 숨김. 카운트다운은 운영하지 않음.</p></details></div><script type="module" src="app.js"></script></body></html>
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#101626" />
+    <title>EPOCK SNS · MOCK</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app" class="app">
+      <header class="top">
+        <div>
+          <strong>EPOCK <span class="soft">/ SNS</span></strong
+          ><small>가상 콘텐츠·기능 검토용</small>
+        </div>
+        <label class="language"
+          >언어
+          <select id="locale" aria-label="공식 언어">
+            <option value="ko-KR">한국어</option>
+            <option value="en-US">English</option>
+          </select></label
+        >
+      </header>
+      <aside class="notice" role="note">
+        MOCK · 예시 대사·이미지는 실제 학습 결과나 확정된 서사가 아닙니다.<br /><b
+          >이 브라우저에만 저장되며 다른 관람객과 공유되지 않음.</b
+        >
+      </aside>
+      <nav class="accounts" aria-label="자매 계정">
+        <button id="account-younger" aria-pressed="true">동생 · 제작 기록</button
+        ><button id="account-older" aria-pressed="false">언니 · 럭시</button>
+      </nav>
+      <main>
+        <section class="profile" id="profile" aria-label="시점별 프로필"></section>
+        <section class="stories" aria-label="유효한 스토리">
+          <h2>스토리 <small>작품 시간 24시간 · 임시 경계 정책</small></h2>
+          <div id="stories"></div>
+        </section>
+        <section class="feed" aria-label="게시물">
+          <h2>게시물 <small id="epoch-label"></small></h2>
+          <div id="posts"></div>
+        </section>
+        <section class="compose">
+          <h2>로컬 참여</h2>
+          <label
+            >닉네임
+            <input id="nickname" maxlength="24" autocomplete="off" placeholder="랜덤 닉네임"
+          /></label>
+          <p class="muted">로그인·다중 사용자·실시간 통신·Drive 동기화·AI 자동 생성: 미연결</p>
+        </section>
+      </main>
+      <footer class="timebar">
+        <div class="timehead">
+          <label for="date">작품 날짜</label
+          ><input id="date" type="date" min="2120-01-01" max="2126-11-30" value="2120-01-01" />
+        </div>
+        <div class="timeactions">
+          <button id="prev" aria-label="작품 날짜 하루 이전">◀ 하루 전</button
+          ><input
+            id="day-slider"
+            aria-label="작품 날짜 이동"
+            type="range"
+            min="0"
+            max="2525"
+            value="0"
+          /><button id="next" aria-label="작품 날짜 하루 이후">하루 뒤 ▶</button>
+        </div>
+        <div class="muted">
+          샘플: 1 epoch = 작품 1일 · 학습 시각 별도 · 두 모델 epoch 자동 대응 없음
+        </div>
+      </footer>
+      <div class="alert" id="alert" hidden role="status" aria-live="polite">
+        <span>과거 게시물에 새 댓글이 있습니다. 현재 화면은 유지됩니다.</span
+        ><button id="refresh-comments">댓글만 갱신</button
+        ><button id="dismiss-alert">나중에</button>
+      </div>
+      <button class="testbtn" id="simulate" type="button">테스트: 과거 댓글 알림</button>
+      <details class="policies">
+        <summary>샘플 임시 정책 · 미연결 기능</summary>
+        <p>
+          댓글: 게시물별 누적 노출, 작성 시각 오름차순 (미확정). 스토리: 게시 시각 포함, 정확히
+          24시간에 숨김 (미확정). 작품 시간대: 시간대 없는 가상 시각으로 12:00 조회 (미확정). 샘플
+          epoch 기준일: 2120-01-01 (미확정). 미래 기록은 선택 작품 시각 이후 숨김. 카운트다운은
+          운영하지 않음.
+        </p>
+      </details>
+    </div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
