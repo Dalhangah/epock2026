@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>왜 Colab과 GPU를 사용하나요? | EPOCK</title>
+  </head>
+  <body>
+    <!-- 쉬운 글의 원본: workarchaive/pages/compute.html -->
+    <p>
+      <a href="index.html">목차로 돌아가기</a>
+    </p>
+    <h1>왜 Colab과 GPU를 사용하나요?</h1>
+    <p>
+      Colab은 인터넷으로 빌려 쓰는 개발 환경입니다.
+      이 기록은 2026년 11월 10일에 장비를 선택한 이유와 추천 기준을 정리한 것입니다.
+      추천한 장치를 실제로 받았거나 학습이 성공했다는 기록은 아닙니다.
+    </p>
+    <h2>작가가 Colab을 고른 이유</h2>
+    <p>
+      작가는 24시간 사용 후 반납하는 방식이라 A100 사용 승인을 비교적 받기 쉽다고 판단했습니다.
+      장비를 오래 확보하기보다 필요한 실험을 세션별로 하려는 선택입니다.
+      이것은 작가의 경험과 판단이지, Google이 A100 배정을 보장한다는 뜻은 아닙니다.
+    </p>
+    <p>
+      Colab 공식 안내에서는 Pro+가 충분한 컴퓨팅 단위를 가지고 있을 때 최대 24시간 연속 실행을 지원한다고 설명합니다.
+      사용량과 장치 배정은 바뀌고, 단위 소진 등으로 중단될 수 있습니다.
+      전용 서버를 24시간 보장받는 계약과 다릅니다.
+    </p>
+    <h2>화면에 보인 장치와 고르는 기준</h2>
+    <p>
+      당시 화면에는 CPU, H100, G4, A100, L4, T4, v6e-1 TPU, v5e-1 TPU가 있었고 CPU가 선택되어 있었습니다.
+      메뉴에 보이는 장치가 반드시 배정되는 것은 아닙니다.
+      고용량 RAM 설정도 GPU의 전용 메모리를 늘리는 기능은 아닙니다.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">후보</th>
+          <th scope="col">어떤 일에 쓸까요?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>A100</td>
+          <td>본격 학습의 우선 후보입니다. 다만 작은 모델에서는 자료를 읽는 시간이 오래 걸릴 수 있어 항상 가장 저렴한 선택은 아닙니다.</td>
+        </tr>
+        <tr>
+          <td>L4·T4</td>
+          <td>선·도형의 작은 시험, 파일 읽기와 저장·재개 확인부터 시작합니다. LoRA도 자료 묶음 크기와 메모리 절약 설정에 따라 검토합니다.</td>
+        </tr>
+        <tr>
+          <td>H100·G4</td>
+          <td>정말 계산 속도가 부족할 때 비용과 속도를 비교합니다. G4는 프로그램 호환도 먼저 확인합니다.</td>
+        </tr>
+        <tr>
+          <td>CPU</td>
+          <td>문서 정리, 이미지 분리, 파일·JSON 검사 등 준비 작업에 사용합니다.</td>
+        </tr>
+        <tr>
+          <td>TPU</td>
+          <td>현재 코드는 CUDA GPU 중심이므로 우선순위를 낮춥니다. TPU가 나쁘다는 뜻은 아닙니다.</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>빨리 끝나는지, 끊겨도 이어지는지 기록해요</h2>
+    <ul>
+      <li>연결한 실제 장치, 메모리, Python·PyTorch·CUDA·Diffusers 버전을 기록합니다.</li>
+      <li>작은 시험으로 처리시간, 최대 메모리, 컴퓨팅 단위 사용량을 재어 봅니다. 짧은 시험으로 전체 시간을 보장하지 않습니다.</li>
+      <li>모델뿐 아니라 학습을 조정하는 optimizer·scheduler, 진행 위치, 난수, 설정을 저장합니다. 새 세션에서 이어지는지 시험합니다.</li>
+      <li>필요한 자료는 실행 컴퓨터에 복사해 읽고, 결과는 Drive처럼 오래 남는 곳에 보관합니다.</li>
+      <li>서로 다른 실험을 비교할 때 장치, 계산 정밀도, 한 번에 읽는 양, 총 학습 횟수와 본 이미지 수를 함께 기록합니다.</li>
+    </ul>
+    <p>
+      더 빠른 GPU를 쓴다고 그림 품질이 자동으로 좋아지는 것은 아닙니다.
+      이 기록에서는 실제 장치 배정, 계정 잔액이나 시간당 소비량을 확인하지 않았습니다.
+      호환 검사를 통과한 프로그램 환경을 고정해 사용하는 것이 목표이며, 최신 버전과 2026.10 버전 중 어느 쪽이 맞는지는 당시 검증 전이었습니다.
+    </p>
+    <h2>기준으로 참고한 자료</h2>
+    <ul>
+      <li>
+        <a href="https://research.google.com/colaboratory/faq.html">Google Colab 공식 FAQ</a>: 실행시간과 자원 사용 안내.</li>
+      <li>
+        <a href="https://docs.cloud.google.com/compute/docs/gpus">Google Cloud GPU 문서</a>: 장치의 일반 특성. Colab 실제 배정·요금과 같지는 않습니다.</li>
+      <li>
+        <a href="https://huggingface.co/docs/diffusers/training/lora">Diffusers LoRA 학습 문서</a>: 일부 가중치를 추가로 학습하는 방법.</li>
+    </ul>
+    <p>
+      <a href="index.html">목차로 돌아가기</a>
+    </p>
+  </body>
+</html>
