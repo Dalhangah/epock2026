@@ -137,7 +137,7 @@ main li {
   }
 }
 
-/* Pre-rendered Mermaid: no CDN or runtime renderer needed. */
+/* Local Mermaid rendering; no external CDN. */
 .diagram-actions {
   display: flex;
   flex-wrap: wrap;
@@ -158,7 +158,7 @@ main li {
 .diagram-scroll svg {
   display: block;
   width: 100%;
-  min-width: 960px;
+  min-width: 0;
   height: auto;
   max-width: none;
 }
@@ -195,7 +195,7 @@ main li {
   overflow: hidden;
 }
 .diagram-scroll svg {
-  min-width: 960px;
+  min-width: 0;
   width: 100%;
   height: auto;
 }

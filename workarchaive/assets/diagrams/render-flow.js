@@ -25,26 +25,40 @@
     });
     await mermaid.run({ nodes: [document.getElementById("system-mermaid")] });
     if (!document.querySelector("#system-mermaid svg")) throw new Error("Diagram missing");
-    status.textContent = "흐름도 표시 완료. 가로로 밀어 전체를 살펴보세요.";
     const svg = document.querySelector("#system-mermaid svg");
-    let diagramWidth = 1600;
+    const viewport = document.querySelector(".diagram-scroll");
+    let zoom = 1;
+    let fitWidth = 0;
     const applySize = () => {
-      svg.style.width = `${diagramWidth}px`;
+      const style = getComputedStyle(viewport);
+      const paddingX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+      const paddingY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+      const box = svg.viewBox.baseVal;
+      const availableWidth = Math.max(1, viewport.clientWidth - paddingX);
+      const availableHeight = Math.max(1, window.innerHeight * 0.7 - paddingY);
+      fitWidth = Math.min(availableWidth, (availableHeight * box.width) / box.height);
+      svg.style.width = `${fitWidth * zoom}px`;
       svg.style.maxWidth = "none";
+      status.textContent =
+        zoom === 1
+          ? "전체 흐름을 화면에 맞췄습니다. 글씨를 자세히 보려면 확대하세요."
+          : `전체 보기 대비 ${Math.round(zoom * 100)}%. 화면을 밀어 다른 부분을 확인하세요.`;
     };
     applySize();
     document.querySelectorAll("[data-zoom]").forEach((button) => {
       button.addEventListener("click", () => {
-        diagramWidth =
+        zoom =
           button.dataset.zoom === "reset"
-            ? 1600
-            : Math.max(
-                960,
-                Math.min(3200, diagramWidth + (button.dataset.zoom === "in" ? 320 : -320)),
-              );
+            ? 1
+            : Math.max(1, Math.min(16, zoom * (button.dataset.zoom === "in" ? 1.5 : 1 / 1.5)));
         applySize();
+        if (zoom === 1) viewport.scrollTo(0, 0);
       });
     });
+    // Refit on mobile rotation/container changes without discarding manual zoom.
+    const observer = new ResizeObserver(applySize);
+    observer.observe(viewport);
+    window.addEventListener("resize", applySize);
   } catch (error) {
     status.textContent =
       "흐름도를 표시하지 못했습니다. 아래 단계별 설명이나 Mermaid 원본을 확인해 주세요.";
