@@ -136,3 +136,69 @@ main li {
     position: static;
   }
 }
+
+/* Pre-rendered Mermaid: no CDN or runtime renderer needed. */
+.diagram-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.diagram-actions a {
+  padding: 10px 0;
+  font-weight: 700;
+}
+.diagram-scroll {
+  overflow: auto;
+  border: 1px solid #d7d0c7;
+  background: #fff;
+  border-radius: 6px;
+  padding: 20px;
+  max-height: 80vh;
+}
+.diagram-scroll svg {
+  display: block;
+  width: 100%;
+  min-width: 960px;
+  height: auto;
+  max-width: none;
+}
+.diagram-scroll:focus-visible {
+  outline: 3px solid #b15418;
+  outline-offset: 4px;
+}
+.flow-text-detail {
+  margin: 28px 0;
+  border: 1px solid #d7d0c7;
+  padding: 20px;
+}
+.flow-text-detail > summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.mermaid-overview {
+  margin: 24px 0;
+}
+@media print {
+  .diagram-scroll {
+    max-height: none;
+    overflow: visible;
+  }
+  .diagram-scroll svg {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+.mermaid:not([data-processed]) {
+  visibility: hidden;
+  max-height: 120px;
+  overflow: hidden;
+}
+.diagram-scroll svg {
+  min-width: 960px;
+  width: 100%;
+  height: auto;
+}
+.mermaid {
+  margin: 0;
+}

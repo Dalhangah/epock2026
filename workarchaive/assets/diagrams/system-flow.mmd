@@ -1,0 +1,57 @@
+%% EPOCK2026 system architecture. Status verified as of 2026-11-18.
+%% Solid arrows: intended forward flow, NOT proof of automation.
+%% Dotted arrows: review feedback / future service integration.
+flowchart TB
+  accTitle: EPOCK2026 전체 시스템 흐름
+  accDescr: 데이터 생성과 작가 검수, 버전 고정과 분할 후 Tiny-UNet과 LoRA 두 경로로 학습한다. 지표와 생성 품질을 평가하고 에폭 서사, 구조화된 요청, 이미지 검수, 시계열 웹툰으로 연결한다. 독자 피드백은 검토 후 개선으로 돌아간다. 초록은 실행 확인, 주황은 진행 중, 회색 점선은 계획이다.
+  subgraph DATA[1 · 학습데이터 준비]
+    direction LR
+    D["● 이미지 + JSON + 엑셀<br/>선 · 도형 · 인체 / 포즈 / 구도"]
+    Q{"● 작가 검수<br/>형태 · 관절 · 메타데이터"}
+    V["✓ 데이터 버전 · 분할<br/>선 데이터 그룹 누출 0 확인"]
+    D --> Q -->|승인| V
+    Q -. 수정 .-> D
+  end
+  subgraph TRAIN[2 · 두 학습 경로]
+    direction LR
+    A["✓ A · Tiny-UNet VR0.02<br/>사전학습 없이 · 직선 20 epoch 확인"]
+    B["○ B · SD 1.5 캐릭터 LoRA<br/>별도 계획 · 실행 완료 미확인"]
+  end
+  V --> A
+  V --> B
+  A --> R["✓ A 일부 확인 · 실험 기록<br/>지표 · 가중치 · 체크포인트 · 생성 이미지"]
+  B -. 계획 .-> R
+  R --> G{"● 품질 관문<br/>수치 + 형태 + 조건 반응"}
+  G -. 미달 / 재검수 .-> Q
+  G -. 재학습 .-> A
+  subgraph STORY[3 · 기록을 작품으로]
+    direction TB
+    N["○ 에폭별 창작 서사<br/>자매가 각자의 아바타를 만드는 과정"]
+    P["○ 구조화된 생성 요청<br/>인물 · 동작 · 감정 표현 · 구도 · 스타일"]
+    I["○ 이미지 생성 + 작가 검수<br/>배경 / 인물 분리 · 실패작 게시 차단"]
+    W["○ 시계열 SNS 웹툰<br/>HTML 레이어 · 대사 JSON · 댓글 / 좋아요"]
+    N --> P --> I --> W
+  end
+  G -->|검토 후 채택| N
+  H["○ 작가가 별도로 확정<br/>자매 등장 전체서사 · 실루엣 · 결말"] -. 창작 기준 .-> N
+  W --> F["○ 독자 반응 · 오류 신고<br/>사람 검토 / 동의 / 권리 확인"]
+  F -. 승인된 개선만 .-> D
+  subgraph SERVICE[4 · 서비스 구성 계획]
+    direction LR
+    UI["○ 독자 브라우저<br/>작품 / 발표 / 아카이브"]
+    WEB["○ PHP · CodeIgniter 4<br/>권한 · 요청 검증 · 상태 관리"]
+    PY["○ 별도 Python 추론 서버<br/>검수된 모델 로드 · 이미지 생성"]
+    UI <-->|웹 요청| WEB
+    WEB <-->|API 요청 / 결과| PY
+    FUT["○ 향후 참여 기능<br/>따라그리기 비교 · 선/문장 조건 변환"]
+    FUT -.-> WEB
+  end
+  W -. 웹 제공 .-> UI
+  P -. 지원 조건만 .-> WEB
+  PY -. 생성 결과 .-> I
+  classDef verified fill:#e8f3ed,stroke:#2a7045,color:#163f29,stroke-width:2px
+  classDef working fill:#fff0de,stroke:#be671b,color:#65380f,stroke-width:2px
+  classDef planned fill:#f3f3f1,stroke:#83837c,color:#353530,stroke-width:1.5px,stroke-dasharray:5 4
+  class V,A,R verified
+  class D,Q,G working
+  class B,N,P,I,W,H,F,UI,WEB,PY,FUT planned
