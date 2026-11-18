@@ -1,0 +1,283 @@
+<!doctype html>
+
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <meta
+      content="박항아의 AI 웹툰 창작 연구 EPOCK2026. 프로젝트 진행현황를 먼저 보고, 그 결과에 이른 선택과 시행착오를 살펴보세요."
+      name="description"
+    />
+    <title>전체 시스템 흐름 · EPOCK2026</title>
+    <link href="../assets/portal.css?v=20261112-subnav3" rel="stylesheet" />
+    <link href="../assets/authors.css?v=20261112-authors" rel="stylesheet" />
+    <link href="../assets/render-review.css?v=20261113" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/task-order.css?v=1" />
+    <link rel="stylesheet" href="../assets/system-flow.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">본문으로 건너뛰기</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="../index.html">EPOCK<span>2026 / 박항아의 창작 연구</span></a>
+        <nav aria-label="주 메뉴">
+          <a href="../index.html#intro">프로젝트 소개</a
+          ><a aria-current="page" href="../pages/planning.html">기획</a
+          ><a href="../pages/results.html">진행현황</a><a href="../pages/behind.html">비하인드</a
+          ><a href="participants.html">참여자 소개</a>
+        </nav>
+      </div>
+      <nav aria-label="기획 하위 메뉴" class="stage-subnav planning-subnav" tabindex="0">
+        <div class="stage-subnav-inner">
+          <a href="planning.html">가이드라인</a><a href="milestones.html">마일스톤</a
+          ><a aria-current="page" href="system-flow.html">전체 시스템 흐름</a>
+        </div>
+      </nav>
+    </header>
+    <main id="main">
+      <div class="page-heading">
+        <p class="eyebrow">PLANNING / SYSTEM FLOW</p>
+        <h1>데이터가 작품이 되는 과정</h1>
+        <p class="large">만들고, 검수하고, 학습하고, 이야기로 연결합니다.</p>
+        <p>
+          이 도식은 EPOCK의 전체 설계입니다. 연결선은 목표 흐름이며, 모든 연결이 자동 실행된다는
+          뜻은 아닙니다.
+        </p>
+        <p class="caption">
+          <time datetime="2026-11-18T23:34:00+09:00">2026-11-18 23:34 KST</time> 기준 · 확인된
+          실행과 앞으로 구현할 부분을 구분했습니다.
+        </p>
+      </div>
+      <div class="flow-legend" aria-label="상태 표시 설명">
+        <span class="state verified">✓ 실행 확인</span
+        ><span class="state working">● 진행·검수 중</span
+        ><span class="state planned">○ 설계·계획</span>
+      </div>
+      <section aria-labelledby="flow-title">
+        <h2 id="flow-title">전체 흐름</h2>
+        <p id="flow-description">
+          1~3번에서 데이터를 준비하고 두 학습 경로로 나눕니다. 지표와 결과물을 평가한 후
+          서사·프롬프트·이미지·웹툰으로 이어집니다. 독자 반응은 검토를 거쳐 개선 자료로 돌아갑니다.
+        </p>
+        <ol class="system-flow" aria-describedby="flow-description">
+          <li class="flow-node working">
+            <span class="state working">● 진행·검수 중</span>
+            <h3><span>01</span> 원천 자료와 학습데이터 생성</h3>
+            <p>
+              직접 만든 선·2D 도형, Blender 인체·포즈·카메라·렌더 스타일을 이미지와 JSON 쌍으로
+              만듭니다.
+            </p>
+            <a href="stage-data.html">학습데이터 진행현황 →</a>
+          </li>
+          <li class="flow-node working">
+            <span class="state working">● 진행·검수 중</span>
+            <h3><span>02</span> 작가 검수 → 승인 또는 수정</h3>
+            <p>
+              김준태 작가 등의 검수로 관절·손·실루엣·구도·메타데이터를 확인합니다. 미승인 이미지는
+              학습용 확정본과 분리합니다.
+            </p>
+            <a href="stage-data.html">검수 현황 →</a>
+          </li>
+          <li class="flow-node verified">
+            <span class="state verified">✓ 선 데이터 실행 확인</span>
+            <h3><span>03</span> 버전 고정 · 분할 · 누출 검사</h3>
+            <p>
+              이미지–JSON 이름 대응, 엑셀 목록, 데이터 버전과 그룹 단위 train/validation 분할을
+              기록합니다. 선 데이터의 그룹 누출 0을 확인했으며 다른 세트는 별도 검사합니다.
+            </p>
+            <a href="stage-pipeline.html#tiny-v052">실행 근거 →</a>
+          </li>
+          <li class="flow-node branch">
+            <h3><span>04</span> 두 학습 경로 · 같은 모델로 합치지 않음</h3>
+            <div class="branch-grid">
+              <article class="verified">
+                <span class="state verified">✓ 직선 학습 실행 확인</span>
+                <h4>A · Tiny-UNet VR0.02</h4>
+                <p>
+                  사전학습 가중치 없이 픽셀 확산 모델을 학습합니다. 직선 20 epoch 실행을
+                  확인했습니다. 곡선·자유곡선 누적 학습, 도형·인체 확장은 후속 검증 대상입니다.
+                </p>
+              </article>
+              <article class="planned">
+                <span class="state planned">○ 별도 학습 경로</span>
+                <h4>B · SD 1.5 캐릭터 LoRA</h4>
+                <p>
+                  기존 Stable Diffusion 기반 캐릭터 학습 계획입니다. 이번 점검에서 실행 완료를
+                  확인하지 않았습니다. A의 가중치를 SD 체크포인트로 변환하는 경로가 아닙니다.
+                </p>
+              </article>
+            </div>
+            <a href="stage-training.html">학습 방향 →</a>
+          </li>
+          <li class="flow-node verified">
+            <span class="state verified">✓ A 경로 일부 실행 확인</span>
+            <h3><span>05</span> 실험 기록 · 지표 · 체크포인트</h3>
+            <p>
+              run ID로 데이터·코드·설정·가중치·생성 이미지를 연결합니다. TensorBoard, MSE, 10배치 및
+              최저값 갱신 저장을 확인했습니다. 단절 후 정확한 재개는 별도 검증합니다.
+            </p>
+            <a href="stage-pipeline.html#tiny-v052">VR0.52 파일 실행·복원 진단 →</a>
+          </li>
+          <li class="flow-node working">
+            <span class="state working">● 평가·개선 중</span>
+            <h3><span>06</span> 품질 관문 · 수치와 그림을 함께</h3>
+            <p>
+              낮은 loss만으로 배포하지 않습니다. 선 형태·조건 반응·포즈·고노이즈 복원을 검토합니다.
+              통과하지 못하면 데이터 검수나 학습 단계로 돌아갑니다.
+            </p>
+            <p class="flow-return">↶ 수정 루프: 02 검수 / 03 데이터 / 04 학습</p>
+          </li>
+          <li class="flow-node planned">
+            <span class="state planned">○ 연결 설계</span>
+            <h3><span>07</span> 학습 기록 → 에폭별 서사</h3>
+            <p>
+              실제 관측 지표와 생성 변화는 사실 레이어로 보존하고, 자매가 각자의 아바타를 만드는
+              과정은 창작 레이어로 해석합니다. loss가 감정을 증명한다고 서술하지 않습니다.
+            </p>
+            <p>
+              <b>별도 작가 결정:</b> 자매가 직접 등장하는 전체 서사·실루엣·결말은 작가가 확정합니다.
+              에폭별 자동 생성과 혼합하지 않습니다.
+            </p>
+          </li>
+          <li class="flow-node planned">
+            <span class="state planned">○ 연결 설계</span>
+            <h3><span>08</span> 서사 → 구조화된 생성 요청</h3>
+            <p>
+              캐릭터·행동·감정의 표현·포즈·카메라·스타일·배경을 JSON 조건으로 변환합니다. 모델이
+              실제 지원하는 조건만 전달하고 미지원 조건은 명시적으로 차단합니다.
+            </p>
+            <p>
+              단어를 나열하는 것만으로 포즈 제어가 생기지 않습니다. 조건 어댑터와 대응 학습이
+              필요합니다.
+            </p>
+          </li>
+          <li class="flow-node planned">
+            <span class="state planned">○ 작품 제작 연결 예정</span>
+            <h3><span>09</span> 이미지 생성 → 작가 검수 → 확정</h3>
+            <p>
+              배경·인물은 분리 생성합니다. 선택한 모델과 체크포인트, 요청 JSON, seed, 결과의 관계를
+              기록합니다. 실패 결과를 자동으로 작품에 게시하지 않습니다.
+            </p>
+          </li>
+          <li class="flow-node planned">
+            <span class="state planned">○ 서비스 구현·검증 대상</span>
+            <h3><span>10</span> 인터랙티브 시계열 SNS 웹툰</h3>
+            <p>
+              배경·인물·효과음·말풍선을 HTML 레이어로 구성합니다. 컷·말풍선 ID와 언어별 대사 JSON,
+              2120~2126 시간축, 댓글·좋아요를 연결합니다. 현재 artwork 샘플과 실제 운영 완성을
+              구분합니다.
+            </p>
+            <a href="../../artwork/">artwork 샘플 보기 →</a>
+          </li>
+          <li class="flow-node planned">
+            <span class="state planned">○ 운영 계획</span>
+            <h3><span>11</span> 독자 반응 → 검토 → 다음 개선</h3>
+            <p>
+              작품 반응과 오류 신고를 구분해 기록합니다. 독자의 그림·댓글을 동의 없이 재학습
+              데이터로 자동 편입하지 않습니다. 목적·이용 동의·권리·품질 검수 후에만 새 데이터 버전
+              후보로 검토합니다.
+            </p>
+            <p class="flow-return">↶ 사람의 검토를 거쳐 01~03으로</p>
+          </li>
+        </ol>
+      </section>
+      <section class="editorial-panel service-plan" aria-labelledby="service-title">
+        <h2 id="service-title">웹서버와 이미지 생성 서버는 분리</h2>
+        <p class="state planned">○ 최근 선택한 서비스 구성 · 배포 완료 아님</p>
+        <div class="service-flow">
+          <article>
+            <h3>독자 브라우저</h3>
+            <p>작품·프레젠테이션·아카이브 열람<br />댓글·좋아요·향후 입력</p>
+          </article>
+          <span aria-hidden="true">↔</span>
+          <article>
+            <h3>PHP / CodeIgniter 4 웹서버</h3>
+            <p>화면·계정·권한·요청 검증<br />구조화된 프롬프트·작업 상태 관리</p>
+          </article>
+          <span aria-hidden="true">↔</span>
+          <article>
+            <h3>별도 Python 추론 서버</h3>
+            <p>검수된 모델 버전 로드<br />이미지 생성·결과 반환</p>
+          </article>
+        </div>
+        <p>
+          학습은 Colab 등 별도 환경에서 진행합니다. 웹호스팅에서 모델 학습·GPU 생성을 직접 수행하는
+          구조가 아닙니다. API 요청/응답 규격, 인증, 제한시간, 재시도·중복 방지, 실패 상태 표시를
+          구현 후 점검해야 합니다.
+        </p>
+        <h3>향후 참여 기능</h3>
+        <ul>
+          <li>
+            따라 그린 인체 이미지와 제시 모델의 유사성 비교: 평가 기준·보정·설명 방식부터 검증
+          </li>
+          <li>선으로 그린 인체 또는 상황 설명 → 모델 지원 조건 → 포즈·구도 이미지 생성</li>
+        </ul>
+        <p>위 기능은 현재 가동 중인 서비스가 아닌 확장 계획입니다.</p>
+      </section>
+      <section aria-labelledby="mlops-title">
+        <h2 id="mlops-title">MLOps 학습 노트에서 가져온 운영 원칙</h2>
+        <p>
+          공유받은 MLOps 교육 문서의 데이터·실험·배포·모니터링 구분을 이 프로젝트 규모에 맞춰
+          적용했습니다. 문서에 소개된 도구를 모두 설치했다는 뜻은 아닙니다.
+        </p>
+        <div class="principle-grid">
+          <article>
+            <h3>재현 가능한 묶음</h3>
+            <p>
+              데이터 버전 + 코드 버전 + 환경/설정 + 모델/체크포인트를 run ID로 연결합니다. Colab의
+              임시 파일에만 의존하지 않습니다.
+            </p>
+          </article>
+          <article>
+            <h3>검증 후 승격</h3>
+            <p>
+              실험 모델과 작품/서비스 채택 모델을 구분하고 승인 이력을 남깁니다. 문제 발생 시 이전
+              검수 버전으로 되돌릴 수 있게 합니다.
+            </p>
+          </article>
+          <article>
+            <h3>환경과 역할 분리</h3>
+            <p>
+              학습·추론·웹 환경을 각각 고정합니다. 컨테이너는 재현성 확보의 후보 수단이며 현재 도입
+              완료로 표기하지 않습니다.
+            </p>
+          </article>
+          <article>
+            <h3>운영 결과도 기록</h3>
+            <p>
+              응답 실패·생성 지연·입력 유형 변화와 작품 품질을 관찰합니다. 재학습은 자동 강행하지
+              않고 사람의 승인과 새 버전 검수를 거칩니다.
+            </p>
+          </article>
+        </div>
+        <p class="caption">
+          현재 확인된 도구: Colab·PyTorch·TensorBoard·JSON 기록. MLflow·Airflow·Vertex AI·Kubernetes
+          등 교육 예시는 도입 확정 목록이 아닙니다. 공유 문서의 개인 정보·실습 자격증명은 공개하지
+          않습니다.
+        </p>
+      </section>
+      <div class="next-link">
+        <a href="planning.html">가이드라인 →</a><a href="milestones.html">마일스톤 →</a
+        ><a href="stage-pipeline.html">실행 근거 →</a>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div>
+        <strong>EPOCK2026</strong>
+        <p>박항아 · 달항아<br />AI의 학습과 창작의 시간을 탐구합니다.</p>
+      </div>
+      <div>
+        <a href="../pages/resources.html">자료실</a
+        ><a href="../publication-review.html">공개 기준</a
+        ><a href="https://www.youtube.com/@dalhan9art" rel="noopener noreferrer" target="_blank"
+          >작가의 다른 활동 ↗</a
+        ><a href="#main">맨 위로 ↑</a>
+      </div>
+      <p class="footnote">
+        사이트 내용 업데이트 2026.11.16 · 연구 자료의 기준일과 상태는 각 항목에 표시합니다.
+      </p>
+    </footer>
+    <script src="../assets/task-order.js?v=3"></script>
+    <script defer="" src="../assets/navigation.js?v=20261112-subnav3"></script>
+  </body>
+</html>
