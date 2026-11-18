@@ -37,7 +37,7 @@
         </div>
       </nav>
     </header>
-    <main data-task-default="new" id="main" data-new-task="tiny-v053" data-next-task="pilot-next">
+    <main data-task-default="new" id="main" data-new-task="tiny-v054" data-next-task="pilot-next">
       <nav aria-label="현재 위치" class="breadcrumbs sr-only">
         <ol>
           <li><a href="../index.html">홈</a></li>
@@ -49,10 +49,10 @@
         <p class="eyebrow sr-only">PROJECT PROGRESS / 04</p>
         <h1 class="sr-only">파이프라인 제작</h1>
         <p class="large">각 도구를 하나의 흐름으로 잇습니다.</p>
-        <span class="label">직선 20 epoch 실행 · 고노이즈 복원 및 혼합 학습은 다음 검증 과제</span>
+        <span class="label">VR0.54 · 80 epoch 목표 중 5 epoch 일시정지 · 재개 검증 대기</span>
         <p class="caption">
-          2026.11.18 업데이트 · VR0.52 파일에 저장된 20 epoch 실행과 복원 진단을 추가했습니다. 내부
-          코드는 VR0.53이며, 이전 시험 기록은 아래에 보존합니다.
+          2026.11.19 업데이트 · 16배 선 가중치 실험과 예상치 못한 설정상 일시정지, 복구 준비
+          과정까지 기록했습니다. 실험별 결과는 아래에 분리 보존합니다.
         </p>
       </div>
       <p class="accordion-help">
@@ -62,10 +62,216 @@
       </p>
       <details
         class="task-accordion active"
+        id="tiny-v054"
+        data-task-number="12"
+        data-task-order="120"
+        open
+      >
+        <summary>
+          <span class="task-number">12</span
+          ><span class="task-title">VR0.54 · 선 가중치 16배와 5 epoch 일시정지 기록</span
+          ><span class="task-status active">● 5 epoch 확인 · 80 epoch 미완료</span>
+        </summary>
+        <div class="accordion-body">
+          <p class="task-updated">
+            내용 업데이트 · <time datetime="2026-11-19T06:51:00+09:00">2026-11-19 06:51 KST</time> ·
+            저장된 실행 출력과 09 대화 대조
+          </p>
+          <p>
+            <strong
+              >80 epoch을 목표로 했지만, 실행은 5 epoch·240 step에서 설정에 의해
+              일시정지했습니다.</strong
+            >
+            저장된 종료 사유는 <code>configured_epoch_pause</code>입니다. 이 중단을 GPU 장애나 Colab
+            시간 만료로 단정하지 않습니다. 이후 런타임 변수 초기화는 재개 사전점검에서 별도로
+            확인됐습니다.
+          </p>
+          <h3>실험의 순서 · 이어받은 것은 모델 가중치</h3>
+          <ol>
+            <li>VR0.52 파일의 기준 학습: 직선 20 epoch.</li>
+            <li>
+              VR0.53 선 가중치 실험: 기준 가중치에서 새 optimizer로 1 epoch, 선 중심 최대 6배.
+            </li>
+            <li>
+              VR0.54: VR0.53의 1 epoch 체크포인트에서 <b>가중치만</b> 이어받은 새 run.
+              optimizer·RNG·epoch 번호는 새로 시작, 선 중심 최대 16배. 실행 시작은 2026-11-19 01:09
+              KST.
+            </li>
+          </ol>
+          <p>
+            VR0.54의 5 epoch을 이전 실험과 합쳐 ‘동일 설정으로 26 epoch’이라 표기하지 않습니다. 학습
+            범위는 여전히 직선 384장 / 검증 96장입니다. 곡선·자유곡선·구도 안내선 혼합 학습은 이번
+            결과가 아닙니다.
+          </p>
+          <h3>검증 지표 · 같은 VR0.54 평가 기준에서 비교</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">지표</th>
+                  <th scope="col">시작 전 epoch 0</th>
+                  <th scope="col">epoch 5</th>
+                  <th scope="col">변화</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">전체 노이즈 MSE</th>
+                  <td>0.041405</td>
+                  <td>0.031343</td>
+                  <td>24.30% 감소</td>
+                </tr>
+                <tr>
+                  <th scope="row">선 영역 노이즈 MSE</th>
+                  <td>0.412460</td>
+                  <td>0.241347</td>
+                  <td>41.49% 감소</td>
+                </tr>
+                <tr>
+                  <th scope="row">배경 노이즈 MSE</th>
+                  <td>0.035261</td>
+                  <td>0.026402</td>
+                  <td>25.12% 감소</td>
+                </tr>
+                <tr>
+                  <th scope="row">16배 계약의 가중 손실</th>
+                  <td>0.083197</td>
+                  <td>0.057516</td>
+                  <td>30.87% 감소</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            시작 전 기준은 <b>VR0.53 부모 가중치를 VR0.54 기준으로 다시 평가한 값</b>입니다. 진단
+            셀의 ‘VR0.52 가중치 기준선’이라는 출력 문구는 초기화 이력과 달라 그대로 인용하지
+            않았습니다. 6배·16배 실험의 가중 손실을 직접 비교하지 않습니다. 감소율은 생성 성공률이
+            아닙니다.
+          </p>
+          <p>
+            16배는 선 중심의 <b>최대값</b>입니다. 2px 원본 선의 가중치 미리보기 최대값은 약 7.94,
+            4px는 약 13.18로 나타났습니다. 축소·안티앨리어싱과 선 영역 비율 때문에 모든 선 픽셀이
+            16배로 평가되는 것은 아닙니다.
+          </p>
+          <h3>epoch 5 실제 이미지 · 생성 품질은 아직 미달</h3>
+          <figure>
+            <a
+              href="../assets/images/pipeline/tiny-v054-generated.webp"
+              target="_blank"
+              rel="noopener"
+              ><img
+                src="../assets/images/pipeline/tiny-v054-generated.webp"
+                alt="epoch 5의 네 조건 비교. 각 쌍 왼쪽은 목표 모식도, 오른쪽 실제 생성은 여전히 색 잡음으로 보인다."
+                loading="lazy"
+                style="width:100%;height:auto"
+            /></a>
+            <figcaption>
+              각 쌍 왼쪽은 목표 모식도, 오른쪽은 실제 생성입니다. 모식도는 정확한 정답 이미지가
+              아닙니다. center_right는 학습 위치 범위 밖 요청입니다.
+            </figcaption>
+          </figure>
+          <figure>
+            <a
+              href="../assets/images/pipeline/tiny-v054-reconstruction.webp"
+              target="_blank"
+              rel="noopener"
+              ><img
+                src="../assets/images/pipeline/tiny-v054-reconstruction.webp"
+                alt="원본 직선과 timestep별 복원 결과. 약한 노이즈에서는 선이 남고 강한 노이즈에서는 선이 사라진다."
+                loading="lazy"
+                style="width:100%;height:auto"
+            /></a>
+            <figcaption>
+              epoch 5 복원 진단. 노이즈를 더한 원본 복원과 무작위 노이즈에서 새로 생성하는 시험은
+              다릅니다.
+            </figcaption>
+          </figure>
+          <p>
+            학습 범위 안 3개 요청의 자동 기하검수는 epoch 1~5 모두 실패, 연속 통과 수는 0입니다.
+            최소 10 epoch 이후 연속 3회 통과 시 종료하는 코드가 있지만 이번 중단 원인은 그것이
+            아닙니다. 휴리스틱 검수는 작가 승인과도 구분합니다.
+          </p>
+          <h3>무엇 때문에 멈췄고, 무엇이 보존됐나</h3>
+          <ul>
+            <li>
+              실행 로그: epoch 5에서 <code>PAUSE_AFTER_EPOCH reached</code>. 목표 80은 학습 상한이며
+              중간 정지 설정을 무시하지 않습니다.
+            </li>
+            <li>
+              latest 체크포인트 읽기 확인: step 240 / next_epoch 6 / cursor 0 / optimizer 존재. 다음
+              epoch 6부터 재개할 수 있는 상태를 저장했지만, 재개 성공 자체는 아직 확인되지
+              않았습니다.
+            </li>
+            <li>
+              epoch 1~5 각 PNG 4장과 metrics 존재, 별도 epoch 0 평가 이미지 4장. best_train_step.pt
+              및 best_validation.pt 존재.
+            </li>
+            <li>
+              재개 사전점검 셀 8A: Drive·기존 폴더·라이브러리·T4 확인 후, 모델·데이터셋 등 런타임
+              변수 누락으로 중단.
+            </li>
+            <li>
+              셀 9 출력 백업 시도(8B): ‘셀 9를 유일하게 식별하지 못했습니다’ 오류. 백업 성공으로
+              기록하지 않습니다.
+            </li>
+          </ul>
+          <p>
+            현재 저장된 설정은 <code>PAUSE_AFTER_EPOCH=None</code>이지만, 남아 있는 학습 출력은 5
+            epoch 정지 시점의 것입니다. 설정 변경만으로 이어 학습이 완료된 것은 아닙니다. 설정에는
+            <code>RUN_MODE='new'</code>도 남아 있으므로 그대로 실행하면 같은 run의 재개가 아닌 새
+            실험이 될 수 있습니다.
+          </p>
+          <h3>09 대화에서 정한 대비책 · 추가 실행 검증 필요</h3>
+          <ul>
+            <li>
+              버전은 VR0.54 유지. 기존 셀 9와 출력을 남기고 실행 로직을 객체화한 추가 셀·별도 실행
+              셀로 재개하도록 요청했습니다.
+            </li>
+            <li>
+              재개 전 Drive와 라이브러리 확인 → 설정·정의 셀 복원 → 같은 VR0.54 run/체크포인트 지정
+              → <code>RUN_MODE='resume'</code>, <code>PAUSE_AFTER_EPOCH=None</code> 확인.
+              목표·데이터·loss 계약은 기존 run과 일치시켜야 합니다.
+            </li>
+            <li>
+              분할/누출·JSON 구조·셔플 감사 결과는 최초 백업 후 재사용하는 방향입니다. 단,
+              데이터·분할·코드 계약이 달라지면 재검사해야 하므로 파일 존재만 보고 무조건 skip하지
+              않도록 설계합니다.
+            </li>
+            <li>
+              출력 보존은 셀 제목만으로 찾기보다 셀 ID·소스 해시 등으로 대상을 검증하고 별도
+              저장합니다. 새 실행이 기존 출력·로그를 덮지 않도록 실행별 기록을 분리합니다.
+            </li>
+            <li>
+              기존 코드에는 10배치/최저값 저장, 세션 시간 예산·안전 여유, 사용자 중단 처리 경로가
+              있습니다. 이번 실행은 설정상 epoch pause만 검증했으며 강제 종료·외부 중단 후 복구는
+              추가 시험이 필요합니다.
+            </li>
+          </ul>
+          <p>
+            노트북에 추가 실행·백업 설계가 제안된 것과 실제 GPU에서 복구를 확인한 것은 다릅니다.
+            이후 실행이 저장되면 새 근거로 업데이트합니다.
+          </p>
+          <p>
+            <a
+              href="https://colab.research.google.com/drive/1tTLxyIeK0ApcyyiuNJ-E8miYDWyQkE9L?usp=sharing"
+              target="_blank"
+              rel="noopener"
+              >VR0.54 저장된 실행 내역 보기</a
+            >
+            · <a href="#tiny-v053">이전 VR0.53 실험</a>
+          </p>
+          <p class="caption">
+            근거: 공유 노트북 2026-11-19 06:46 KST 저장본의 코드·실행 출력·내장 이미지, 09 대화의
+            사용자 재개·출력 보존 요청. 일부 대화 답변 본문은 검색 도구에서 생략되어, 확인하지 못한
+            추가 코드의 실행 성공을 추정하지 않았습니다.
+          </p>
+        </div>
+      </details>
+      <details
+        class="task-accordion active"
         id="tiny-v053"
         data-task-number="11"
         data-task-order="110"
-        open
       >
         <summary>
           <span class="task-number">11</span
