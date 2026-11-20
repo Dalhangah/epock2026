@@ -37,7 +37,7 @@
         </div>
       </nav>
     </header>
-    <main data-task-default="new" id="main" data-new-task="tiny-v055" data-next-task="pilot-next">
+    <main data-task-default="new" id="main" data-new-task="tiny-v056" data-next-task="pilot-next">
       <nav aria-label="현재 위치" class="breadcrumbs sr-only">
         <ol>
           <li><a href="../index.html">홈</a></li>
@@ -49,10 +49,10 @@
         <p class="eyebrow sr-only">PROJECT PROGRESS / 04</p>
         <h1 class="sr-only">파이프라인 제작</h1>
         <p class="large">각 도구를 하나의 흐름으로 잇습니다.</p>
-        <span class="label">VR0.54 · 80 epoch 목표 중 5 epoch 일시정지 · 재개 검증 대기</span>
+        <span class="label">VR0.56 · 직선 학습 전략 4종 실행 완료 · 생성 개선 미확인</span>
         <p class="caption">
-          2026.11.19 업데이트 · 16배 선 가중치 실험과 예상치 못한 설정상 일시정지, 복구 준비
-          과정까지 기록했습니다. 실험별 결과는 아래에 분리 보존합니다.
+          2026.11.21 업데이트 · 같은 모델에서 출발한 네 학습 전략을 비교했습니다.
+          검증 수치와 생성 이미지의 판단을 나눠 기록합니다.
         </p>
       </div>
       <p class="accordion-help">
@@ -62,10 +62,76 @@
       </p>
       <details
         class="task-accordion active"
+        id="tiny-v056"
+        data-task-number="14"
+        data-task-order="140"
+        open
+      >
+        <summary>
+          <span class="task-number">14</span>
+          <span class="task-title">VR0.56 · 직선 학습 전략 네 가지 비교</span>
+          <span class="task-status active">● 네 전략 실행 완료 · 직선 생성 미검증</span>
+        </summary>
+        <div class="accordion-body">
+          <p class="task-updated">
+            내용 업데이트 · <time datetime="2026-11-21T02:46+09:00">2026-11-21 02:46 KST</time>
+          </p>
+          <p>
+            <strong>네 가지 방식으로 더 학습했지만, 생성된 그림에서는 아직 뚜렷한 직선을 찾기 어려웠습니다.</strong>
+            선에 더 큰 비중을 주면 결과가 좋아지는지 확인하기 위해 직선 이미지 384장으로 학습하고 96장으로 검증했습니다.
+            곡선·도형·인체는 이번 비교에 포함하지 않았습니다.
+          </p>
+          <h3>같은 모델에서 출발한 네 번의 실험</h3>
+          <p>
+            네 전략은 모두 VR0.55의 동일한 80 에폭 모델 가중치에서 독립적으로 출발했습니다.
+            각 분기를 10 에폭(480 스텝)씩 실행해 모두 90 에폭에서 마쳤습니다.
+            네 전략을 한 모델에 차례로 적용한 것이 아닙니다.
+          </p>
+          <div style="overflow-x: auto" role="region" aria-label="네 학습 전략 검증 수치" tabindex="0">
+            <table>
+              <caption>검증 이미지의 선 영역 노이즈 예측 오차(MSE). 낮을수록 예측 오차가 작습니다.</caption>
+              <thead>
+                <tr>
+                  <th scope="col">학습 전략</th>
+                  <th scope="col">최종 E90</th>
+                  <th scope="col">구간 최저 (에폭)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">기존 모델 · VR0.55 E80</th><td>0.10670 (E80 기준)</td><td>비교 기준</td></tr>
+                <tr><th scope="row">baseline16 · 선 가중치 16배 유지</th><td>0.11463</td><td>0.10799 (E89)</td></tr>
+                <tr><th scope="row">foreground32 · 선 가중치 32배</th><td>0.10913</td><td>0.10766 (E87)</td></tr>
+                <tr><th scope="row">region_balanced · 선·주변·배경 균형</th><td><strong>0.10686</strong></td><td>0.10686 (E90)</td></tr>
+                <tr><th scope="row">min_snr5 · 노이즈 단계별 가중치 조절</th><td>0.13890</td><td><strong>0.10119 (E82)</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>수치와 실제 그림은 별도로 판단</h3>
+          <p>
+            최종 E90에서는 영역 균형 전략의 오차가 가장 작았지만, 기존 E80보다 낮지는 않았습니다.
+            min_snr5는 E82에서 기존 모델보다 낮은 오차를 한 번 기록했지만 E90에서는 다시 높아졌습니다.
+            마지막까지 개선이 유지된 전략은 확인되지 않았습니다.
+          </p>
+          <p>
+            작가가 육안으로 본 생성 결과는 여전히 잡음에 가까웠습니다. 이 오차는 이미지에 더한
+            노이즈를 얼마나 잘 예측했는지 보여줄 뿐, 무작위 노이즈에서 원하는 각도·굵기·위치의
+            직선을 만들 수 있다는 뜻은 아닙니다. 따라서 어느 전략도 생성 품질의 승자로 선정하지 않았습니다.
+          </p>
+          <h3>다음 검증</h3>
+          <p>
+            현재 실행본의 결과 확인 셀은 한 번에 한 실행을 읽습니다. 네 실행의 같은 조건·시드에서
+            최종 이미지와 최저 오차 에폭의 이미지를 나란히 읽는 비교 셀은 별도 교체안으로 정리했습니다.
+            기존 결과를 보존하고, 얇은 선이 축소 과정에서도 남는지와 조건값이 실제 픽셀에 맞는지 점검한 뒤,
+            깨끗한 이미지 자체를 예측하는 방식도 별도 실험에서 비교할 계획입니다.
+          </p>
+          <p><a href="#tiny-v055">이전 VR0.55 실험</a></p>
+        </div>
+      </details>
+      <details
+        class="task-accordion active"
         id="tiny-v055"
         data-task-number="13"
         data-task-order="130"
-        open
       >
         <summary>
           <span class="task-number">13</span>
@@ -1364,7 +1430,7 @@
         ><a href="#main">맨 위로 ↑</a>
       </div>
       <p class="footnote">
-        사이트 내용 업데이트 2026.11.18 · 연구 자료의 기준일과 상태는 각 항목에 표시합니다.
+        사이트 내용 업데이트 2026.11.21 · 연구 자료의 기준일과 상태는 각 항목에 표시합니다.
       </p>
     </footer>
     <script src="../assets/task-order.js?v=3"></script>
