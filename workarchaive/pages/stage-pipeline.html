@@ -37,7 +37,7 @@
         </div>
       </nav>
     </header>
-    <main data-task-default="new" id="main" data-new-task="tiny-v056" data-next-task="pilot-next">
+    <main data-task-default="new" id="main" data-new-task="jit-mini-v004" data-next-task="pilot-next">
       <nav aria-label="현재 위치" class="breadcrumbs sr-only">
         <ol>
           <li><a href="../index.html">홈</a></li>
@@ -49,10 +49,10 @@
         <p class="eyebrow sr-only">PROJECT PROGRESS / 04</p>
         <h1 class="sr-only">파이프라인 제작</h1>
         <p class="large">각 도구를 하나의 흐름으로 잇습니다.</p>
-        <span class="label">VR0.56 · 직선 학습 전략 4종 실행 완료 · 생성 개선 미확인</span>
+        <span class="label">VR0.04 · 세 모델 생성 비교 · 각도 반응 확인, 품질 검수 미통과</span>
         <p class="caption">
-          2026.11.21 업데이트 · 같은 모델에서 출발한 네 학습 전략을 비교했습니다.
-          검증 수치와 생성 이미지의 판단을 나눠 기록합니다.
+          2026.11.21 업데이트 · 세 실험 모델의 실제 생성 이미지를 비교했습니다.
+          각도 조건에 대한 반응과 이미지 품질을 구분하고, VR0.05는 후속 진단 코드 제공 단계로 기록합니다.
         </p>
       </div>
       <p class="accordion-help">
@@ -62,10 +62,149 @@
       </p>
       <details
         class="task-accordion active"
+        id="jit-mini-v004"
+        data-task-number="15"
+        data-task-order="150"
+        open
+      >
+        <summary>
+          <span class="task-number">15</span>
+          <span class="task-title">VR0.04 · 세 모델과 실제 생성 이미지 비교</span>
+          <span class="task-status active">● 실행 결과 확인 · 조건 제어 미통과</span>
+        </summary>
+        <div class="accordion-body">
+          <p class="task-updated">
+            내용 업데이트 · <time datetime="2026-11-21T08:58+09:00">2026-11-21 08:58 KST</time>
+          </p>
+          <p>
+            <strong>JiT-mini는 한 장 학습에서 가로선을 만들었고, 두 각도 학습 후에는 요청에 따라
+            주된 선의 방향도 바뀌었습니다. 다만 불필요한 선 조각이 남아 품질 검수는 통과하지 못했습니다.</strong>
+            생성 능력의 변화와 최종 이미지의 품질을 나누어 기록합니다.
+          </p>
+          <h3>이번 비교의 A/B/C는 실험 분기 이름입니다</h3>
+          <p>
+            작품 속 자매의 A/B 아바타와는 다른 구분입니다. 이번에는 노이즈를 예측하는 방식과
+            깨끗한 이미지 자체를 예측하는 방식을 작은 직선 실험으로 비교했습니다.
+          </p>
+          <div class="table-wrap" role="region" aria-label="VR0.04 모델별 구성과 실행 결과" tabindex="0">
+            <table>
+              <caption>실제로 실행한 범위만 표시했습니다. 미실행은 실패와 구분합니다.</caption>
+              <thead>
+                <tr>
+                  <th scope="col">실험 모델</th>
+                  <th scope="col">예측 방식 · 학습량</th>
+                  <th scope="col">확인한 결과</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">A · Tiny-UNet</th>
+                  <td>노이즈 ε 예측 · DDPM<br />200 스텝</td>
+                  <td>공통 조건 시험 0/12 통과. 실제 출력은 색 잡음에 가깝습니다.</td>
+                </tr>
+                <tr>
+                  <th scope="row">B · Tiny-UNet</th>
+                  <td>깨끗한 이미지 x0 예측 · flow<br />한 장 학습 400 스텝</td>
+                  <td>단일 가로선 시험 0/3 통과. 선이 여러 짧은 조각으로 나뉩니다.
+                    두 각도 학습과 공통 조건 시험은 실행하지 않았습니다.</td>
+                </tr>
+                <tr>
+                  <th scope="row">C · JiT-mini</th>
+                  <td>깨끗한 이미지 x0 예측 · flow<br />한 장 학습 400 스텝</td>
+                  <td>무작위 노이즈에서 굵은 가로선 생성 3/3 통과.</td>
+                </tr>
+                <tr>
+                  <th scope="row">C · JiT-mini 이어 학습</th>
+                  <td>가로·세로 두 각도로 400 스텝 추가<br />누적 800 스텝</td>
+                  <td>가로·세로 한 쌍 기준 0/3 통과, 공통 조건 시험 0/12 통과.
+                    주된 선의 방향은 바뀌지만 잔여 선 조각이 남습니다.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="caption">
+            통과 수는 이번 실행의 자동 검수 결과입니다. 작가의 최종 승인이나 일반적인 성능을 뜻하지 않습니다.
+            모델 용량, 학습량과 실험 단계가 달라 공정한 동등 조건 비교가 아니며, 구조만의 우열로 일반화하지 않습니다.
+          </p>
+          <h3>같은 시드 111 · 222 · 333에서 실제로 나온 그림</h3>
+          <figure>
+            <a href="../assets/images/pipeline/jit-mini-v004-training.webp">
+              <img
+                src="../assets/images/pipeline/jit-mini-v004-training.webp"
+                alt="동일 시드 세 개의 실제 결과. A는 색 잡음, B는 여러 가로선 조각, C 한 장 학습은 굵은 가로선이며 C 두 각도 학습은 방향에 맞는 주된 선과 잔여 조각을 보여 줍니다."
+                width="675"
+                height="837"
+                loading="lazy"
+                style="display:block;width:100%;max-width:675px;height:auto"
+              />
+            </a>
+            <figcaption>
+              저장된 생성 PNG의 픽셀을 바꾸지 않고 나란히 놓은 무손실 WebP입니다.
+              행마다 실행 단계가 다르므로 시드가 같다는 이유만으로 동일 조건의 모델 순위표로 읽지 않습니다.
+              이미지를 누르면 크게 볼 수 있습니다.
+            </figcaption>
+          </figure>
+          <h3>‘방향이 바뀌었다’와 ‘깨끗한 선을 만들었다’는 다릅니다</h3>
+          <p>
+            C 모델의 누적 800 스텝 출력에서 90°를 요청하면 세 시드 모두 주된 연결 성분의
+            경계 상자가 가로 64×4px에서 세로 4×64px로 바뀌었습니다. 이 관찰은 각도 조건에
+            반응했다는 근거입니다. 그러나 세로선 주변에 가로 방향의 점선 같은 잔상이 남아
+            깨끗한 한 줄이라는 품질 기준은 통과하지 못했습니다.
+          </p>
+          <figure>
+            <a href="../assets/images/pipeline/jit-mini-v004-conditions.webp">
+              <img
+                src="../assets/images/pipeline/jit-mini-v004-conditions.webp"
+                alt="C 모델 공통 조건 시험. 세로 요청에서는 주된 선이 세로로 바뀌지만 가로 잔상이 남습니다. 굵기와 오른쪽 이동 요청에서는 요구한 변화가 확인되지 않습니다."
+                width="675"
+                height="691"
+                loading="lazy"
+                style="display:block;width:100%;max-width:675px;height:auto"
+              />
+            </a>
+            <figcaption>
+              누적 800 스텝의 C 모델, 각 조건마다 시드 111·222·333.
+              네 조건 × 세 시드의 자동 검수는 0/12 통과입니다.
+              판정 숫자와 별개로 주된 선의 방향 변화, 남은 조각을 함께 관찰합니다.
+            </figcaption>
+          </figure>
+          <p>
+            굵기와 위치를 제어하는 능력은 아직 확인하지 못했습니다. 두 학습 이미지 모두
+            원본 기준 14px 굵기와 같은 중심 위치를 사용했으므로, 이번 결과만으로 다양한 굵기나
+            위치까지 학습했다고 말할 수 없습니다. 각도 반응을 굵기·위치 제어 성공으로 확대하지 않습니다.
+          </p>
+          <h3>VR0.05 · 후속 진단 코드 제공, Colab 실행 전</h3>
+          <p>
+            다음 단계는 학습량을 먼저 늘리는 대신 <strong>기존 누적 800 스텝 모델에서
+            잔여 선이 생기는 구간을 찾는 진단</strong>입니다. 후속 진단 코드는 제공했으며,
+            아래는 사용자의 Colab에서 확인할 절차입니다. 재학습을 진행하는 코드가 아닙니다.
+          </p>
+          <ol>
+            <li>시드 111·222·333과 원본 14px 굵기 조건을 맞추어 가로·세로를 다시 비교합니다.</li>
+            <li>샘플링 첫 단계·중간·마지막 단계에서 모델이 직접 예측한 원시 x0와
+              샘플러가 갱신한 이미지를 각각 기록합니다.</li>
+            <li>각도 조건에 반응하는 능력과 한 줄의 연속성·잔상·배경 같은 품질 항목을 따로 판단합니다.</li>
+          </ol>
+          <p>
+            VR0.05의 사용자 Colab 실행과 개선 효과는 아직 확인되지 않았습니다.
+            기존 모델을 읽어 진단하는 단계이며, 추가 학습 완료나 생성 품질 개선으로 표시하지 않습니다.
+          </p>
+          <p>
+            <a
+              href="https://colab.research.google.com/drive/1hRHYqbphiUaM_MpLe8oib5vFHXmCt27k"
+              target="_blank"
+              rel="noopener noreferrer"
+            >VR0.04 실험 노트북 열기 (새 창)</a>
+            · <a href="#tiny-v056">이전 VR0.56 직선 학습 전략 비교</a>
+          </p>
+        </div>
+      </details>
+
+      <details
+        class="task-accordion active"
         id="tiny-v056"
         data-task-number="14"
         data-task-order="140"
-        open
       >
         <summary>
           <span class="task-number">14</span>
@@ -1437,3 +1576,4 @@
     <script defer="" src="../assets/navigation.js?v=20261112-subnav3"></script>
   </body>
 </html>
+
