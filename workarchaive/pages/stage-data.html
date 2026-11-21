@@ -35,7 +35,7 @@
         </div>
       </nav>
     </header>
-    <main data-task-default="new" id="main" data-new-task="planar-expansion" data-next-task="">
+    <main data-task-default="new" id="main" data-new-task="luxy-lora-dataset" data-next-task="">
       <nav aria-label="현재 위치" class="breadcrumbs sr-only">
         <ol>
           <li><a href="../index.html">홈</a></li>
@@ -47,10 +47,10 @@
         <p class="eyebrow sr-only">PROJECT PROGRESS / 03</p>
         <h1 class="sr-only">학습데이터 생성</h1>
         <p class="large">다양한 형태에서 학습 자료를 준비합니다.</p>
-        <span class="label">진행 중 · 2D 기본도형 1,068쌍 제작, 모델 연결·성능 검증은 별도</span>
+        <span class="label">진행 중 · 럭시의 LoRA용 학습데이터 제작 방식 변경</span>
         <p class="caption">
-          2026.11.18 업데이트 · 2D 기본도형을 세 차례 확장한 실제 이미지·JSON과 목록을 확인했습니다.
-          제작한 학습 재료와 AI가 학습하여 만든 결과를 구분합니다.
+          2026.11.21 업데이트 · 럭시는 3D 카툰 렌더 대량 제작 대신 작화 이미지 중심으로 학습데이터를 준비합니다.
+          앞서 제작한 2D 기본도형 1,068쌍은 아래 작업 기록에 남겨 둡니다.
         </p>
       </div>
       <p class="accordion-help">
@@ -60,10 +60,55 @@
       </p>
       <details
         class="task-accordion active"
+        id="luxy-lora-dataset"
+        data-task-number="09"
+        data-task-order="90"
+        open
+      >
+        <summary>
+          <span class="task-number">09</span>
+          <span class="task-title">럭시(Luxy) · 3D 렌더 대신 작화 이미지로 LoRA 준비</span>
+          <span class="task-status active">● 제작 방향 변경 · 데이터 준비 중</span>
+        </summary>
+        <div class="accordion-body">
+          <p class="task-updated">
+            내용 업데이트 · <time datetime="2026-11-21T09:31+09:00">2026-11-21 09:31 KST</time>
+          </p>
+          <p>
+            <strong>럭시의 외형을 SD 1.5 기반 캐릭터 LoRA로 학습하기 위해, 직접 그린 이미지 중심으로
+              학습데이터를 준비합니다.</strong> 캐릭터 LoRA라는 학습 방향은 유지합니다. 럭시 전체를
+            Blender로 모델링해 카툰 렌더를 대량 제작하려던 계획에서 바꾼 부분은
+            <b>학습용 이미지를 만드는 방식</b>입니다.
+          </p>
+          <h3>왜 바꿨나요?</h3>
+          <p>
+            3D 모델을 한 번 만들면 많은 장면을 뽑는 데 유리합니다. 하지만 작가의 선과 그림체를
+            렌더에 살리려면 인체 모델링과 카툰 렌더링을 별도로 연구해야 합니다. 이번에는 그 시간을
+            줄이고, 럭시의 외형과 작가의 표현이 잘 드러나는 그림을 먼저 확보합니다.
+          </p>
+          <h3>어떻게 준비하나요?</h3>
+          <ol>
+            <li>럭시의 턴어라운드를 기준으로 Clip Studio Paint의 3D 인체 데생 인형 체형을 조정합니다.</li>
+            <li>럭시의 성격에 맞는 일상 동작 5~10개를 포즈 참고로 준비합니다. 3D 인형은 작화 보조이며,
+              인형 화면이나 렌더를 그대로 학습 이미지로 쓰지 않습니다.</li>
+            <li>작가의 선화와 컬러링을 담은 고품질 작화 이미지 약 10장으로 시작할 계획입니다.
+              포즈 수와 학습 이미지 수는 별개의 계획이며, 10장이면 충분하다는 검증 결과는 아닙니다.</li>
+          </ol>
+          <h3>이번 변경의 범위</h3>
+          <p>
+            럭시 쪽 제작 방식만 바뀌었습니다. 티니의 학습데이터용 추가 동작과 검수·수정은 별도 작업으로
+            이어갑니다. 럭시는 자료 준비 단계이며, 학습은 아직 실행하지 않았습니다. 생성 품질도
+            아직 검증하지 않았습니다.
+            파이프라인의 JiT-mini A/B/C 직선 실험은 이 캐릭터 LoRA와 별개입니다.
+          </p>
+          <p><a href="planning.html#decisions">기획 가이드라인의 모델별 기준</a></p>
+        </div>
+      </details>
+      <details
+        class="task-accordion active"
         id="planar-expansion"
         data-task-number="08"
         data-task-order="80"
-        open
       >
         <summary>
           <span class="task-number">08</span
@@ -856,7 +901,7 @@
         ><a href="#main">맨 위로 ↑</a>
       </div>
       <p class="footnote">
-        사이트 내용 업데이트 2026.11.16 · 연구 자료의 기준일과 상태는 각 항목에 표시합니다.
+        사이트 내용 업데이트 2026.11.21 · 연구 자료의 기준일과 상태는 각 항목에 표시합니다.
       </p>
     </footer>
     <script src="../assets/task-order.js?v=3"></script>
