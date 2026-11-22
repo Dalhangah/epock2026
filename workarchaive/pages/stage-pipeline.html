@@ -37,7 +37,7 @@
         </div>
       </nav>
     </header>
-    <main data-task-default="new" id="main" data-new-task="jit-mini-v021" data-next-task="pilot-next">
+    <main data-task-default="new" id="main" data-new-task="jit-mini-v031" data-next-task="pilot-next">
       <nav aria-label="현재 위치" class="breadcrumbs sr-only">
         <ol>
           <li><a href="../index.html">홈</a></li>
@@ -49,10 +49,10 @@
         <p class="eyebrow sr-only">PROJECT PROGRESS / 04</p>
         <h1 class="sr-only">파이프라인 제작</h1>
         <p class="large">각 도구를 하나의 흐름으로 잇습니다.</p>
-        <span class="label">VR0.21 · 가로선 한 장 재현 확인 · 두 방향 검수 미통과</span>
+        <span class="label">VR0.31 · 가로·세로 추가 학습 4분기 비교</span>
         <p class="caption">
-          2026.11.22 업데이트 · 가로선 한 장을 배운 모델은 세 번 모두 한 획을 재현했습니다.
-          가로와 세로를 함께 배운 모델은 방향에 반응했지만, 획 주변에 조각을 남겼습니다.
+          2026.11.23 업데이트 · 가로선 유지와 세로선 학습을 네 방식으로 비교했습니다.
+          세로 3/3에 도달한 분기가 있었지만, 같은 시점에 가로까지 모두 통과하지는 못했습니다.
         </p>
       </div>
       <p class="accordion-help">
@@ -62,10 +62,119 @@
       </p>
       <details
         class="task-accordion active"
+        id="jit-mini-v031"
+        data-task-number="18"
+        data-task-order="180"
+        open
+      >
+        <summary>
+          <span class="task-number">18</span>
+          <span class="task-title">VR0.31 · 가로선을 유지하면서 세로선도 배울 수 있을까?</span>
+          <span class="task-status active">● 4분기 실행 완료 · 두 방향 동시 통과 없음</span>
+        </summary>
+        <div class="accordion-body">
+          <p class="task-updated">
+            내용 업데이트 · <time datetime="2026-11-23T00:52+09:00">2026-11-23 00:52 KST</time>
+          </p>
+          <p>
+            <strong>가로선만 잘 그리던 모델에 세로선만 추가로 보여 주자, 이미 잘 그리던 가로선도 흔들렸습니다.</strong>
+            반대로 처음부터 두 방향을 함께 배운 모델을 더 학습시키자 세로는 3/3, 가로는 2/3까지 통과했습니다.
+            같은 체크포인트에서 두 방향 모두 3/3을 통과한 실험은 없었습니다.
+          </p>
+          <p>
+            <a href="#jit-mini-v021">VR0.21</a>에서 800스텝 훈련한 모델을 가져왔습니다.
+            A·B·C는 같은 가로선 전용 가중치에서 시작해 새 옵티마이저로 각각 다른 비율을 시험했습니다.
+            D는 처음부터 가로·세로를 함께 배운 별도 모델의 가중치·옵티마이저·학습 난수 상태를 복원해 그대로 이어갔습니다.
+            추가 학습은 모두 800스텝, 배치 크기 4로 맞췄습니다.
+          </p>
+          <div class="table-wrap" role="region" aria-label="VR0.31 분기와 추가 스텝별 검수" tabindex="0">
+            <table>
+              <caption>각 셀은 가로 · 세로 순서의 통과 수입니다. 방향마다 동일한 시드 111·222·333을 사용했습니다.</caption>
+              <thead>
+                <tr>
+                  <th scope="col">분기</th>
+                  <th scope="col">추가 가로:세로</th>
+                  <th scope="col">출발</th>
+                  <th scope="col">+200</th>
+                  <th scope="col">+400</th>
+                  <th scope="col">+800</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">A · 세로만 추가</th><td>0:1</td><td>3/3 · 0/3</td><td>0/3 · 0/3</td><td>0/3 · 0/3</td><td>0/3 · 0/3</td>
+                </tr>
+                <tr>
+                  <th scope="row">B · 균등 추가</th><td>1:1</td><td>3/3 · 0/3</td><td>3/3 · 0/3</td><td>3/3 · 0/3</td><td>3/3 · 0/3</td>
+                </tr>
+                <tr>
+                  <th scope="row">C · 세로 비중 확대</th><td>1:4</td><td>3/3 · 0/3</td><td>0/3 · 0/3</td><td>0/3 · 0/3</td><td>3/3 · 0/3</td>
+                </tr>
+                <tr>
+                  <th scope="row">D · 처음부터 두 방향을 배운 모델 연장</th><td>1:1</td><td>0/3 · 0/3</td><td>0/3 · 0/3</td><td>0/3 · 0/3</td><td>2/3 · 3/3</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>실제 생성 이미지 · 출발점과 +800스텝 비교</h3>
+          <p>
+            정답은 비교 기준입니다. 생성에는 정답을 넣지 않고 같은 시드의 무작위 잡음에서 시작했습니다.
+            가로와 세로는 각각 중앙에 한 획씩 따로 요청했습니다.
+          </p>
+          <figure>
+            <a href="../assets/images/pipeline/jit-mini-v031-h.webp">
+              <img
+                src="../assets/images/pipeline/jit-mini-v031-h.webp"
+                alt="가로 요청 비교. A는 세로 조각으로 바뀌고, B·C는 가로를 재현합니다. D는 가운데 열에서 가로선 위에 작은 조각이 남습니다."
+                width="610"
+                height="1095"
+                loading="lazy"
+                style="display:block;width:100%;max-width:610px;height:auto"
+              />
+            </a>
+            <figcaption>
+              가로 요청 · 출발점 두 종류와 네 분기의 최종 결과, 시드 3개를 모두 표시했습니다.
+              원본 128×128 PNG를 보정하지 않고 무손실로 배치했습니다. 이미지를 누르면 크게 볼 수 있습니다.
+            </figcaption>
+          </figure>
+          <figure>
+            <a href="../assets/images/pipeline/jit-mini-v031-v.webp">
+              <img
+                src="../assets/images/pipeline/jit-mini-v031-v.webp"
+                alt="세로 요청 비교. A·B·C에는 주변 조각이 남고 D는 세 시드에서 세로 한 획을 재현합니다."
+                width="610"
+                height="1095"
+                loading="lazy"
+                style="display:block;width:100%;max-width:610px;height:auto"
+              />
+            </a>
+            <figcaption>
+              세로 요청 · 출발점 두 종류와 네 분기의 최종 결과, 시드 3개를 모두 표시했습니다.
+              원본 128×128 PNG를 보정하지 않고 무손실로 배치했습니다. 이미지를 누르면 크게 볼 수 있습니다.
+            </figcaption>
+          </figure>
+          <ul>
+            <li>A: 최종 가로 요청에도 세로 방향 조각이 나왔고, 세로 요청도 주변 조각 때문에 기준에 못 미쳤습니다.</li>
+            <li>B: 가로는 모든 평가 시점에 유지했지만 최종 세로에는 여러 조각이 남았습니다.</li>
+            <li>C: 가로는 +200·+400에서 기준 미달이었다가 +800에 회복했습니다. 최종 세로는 세 시드 모두 미통과였습니다.</li>
+            <li>D: 세로 3장 모두 통과했습니다. 가로는 시드 222의 작은 추가 획 때문에 2/3에 그쳤습니다.</li>
+          </ul>
+          <h3>다음에 확인할 점</h3>
+          <p>
+            처음부터 두 방향을 균등하게 섞고, 둘 다 안정되는 데 필요한 학습량을 확인할 계획입니다.
+            학습 순서를 비교할 때는 초기 조건과 총 스텝·누적 노출·평가 시드를 맞춥니다.
+            D는 이미 만들어 둔 두 방향 모델을 이어간 결과이므로 이번 비교만으로 학습 순서나 데이터의 다양성이
+            성능 차이의 원인이라고 단정할 수 없습니다. 이번 시험은 학습에 본 중앙 직선의 재현을 확인했으며,
+            새로운 위치·굵기·각도에서도 그릴 수 있다는 뜻은 아닙니다.
+          </p>
+        </div>
+      </details>
+
+      <details
+        class="task-accordion active"
         id="jit-mini-v021"
         data-task-number="17"
         data-task-order="170"
-        open
       >
         <summary>
           <span class="task-number">17</span>
@@ -134,6 +243,7 @@
             계획입니다. 같은 가로선 모델에서 가로:세로 노출 비율을 0:1, 1:1, 1:4로 나누어 비교하고,
             별도로 가로·세로 두 장 학습본은 기존 방식 그대로 이어갑니다.
             각 분기의 추가 학습량은 800스텝으로 맞출 예정입니다.
+            <a href="#jit-mini-v031">이 계획의 실행 결과는 VR0.31 기록에서 확인할 수 있습니다.</a>
           </p>
         </div>
       </details>
