@@ -37,7 +37,7 @@
         </div>
       </nav>
     </header>
-    <main data-task-default="new" id="main" data-new-task="jit-mini-v020" data-next-task="pilot-next">
+    <main data-task-default="new" id="main" data-new-task="jit-mini-v021" data-next-task="pilot-next">
       <nav aria-label="현재 위치" class="breadcrumbs sr-only">
         <ol>
           <li><a href="../index.html">홈</a></li>
@@ -49,10 +49,10 @@
         <p class="eyebrow sr-only">PROJECT PROGRESS / 04</p>
         <h1 class="sr-only">파이프라인 제작</h1>
         <p class="large">각 도구를 하나의 흐름으로 잇습니다.</p>
-        <span class="label">VR0.20 · 직선 다양성 실험 · 한 획 검수 미통과</span>
+        <span class="label">VR0.21 · 가로선 한 장 재현 확인 · 두 방향 검수 미통과</span>
         <p class="caption">
-          2026.11.22 업데이트 · 같은 JiT-mini 모델로 직선 학습 세 가지를 비교했습니다.
-          일부 결과에서 방향은 바뀌었지만, 원하는 자리에 끊기지 않은 한 획은 확인하지 못했습니다.
+          2026.11.22 업데이트 · 가로선 한 장을 배운 모델은 세 번 모두 한 획을 재현했습니다.
+          가로와 세로를 함께 배운 모델은 방향에 반응했지만, 획 주변에 조각을 남겼습니다.
         </p>
       </div>
       <p class="accordion-help">
@@ -62,10 +62,87 @@
       </p>
       <details
         class="task-accordion active"
+        id="jit-mini-v021"
+        data-task-number="17"
+        data-task-order="170"
+        open
+      >
+        <summary>
+          <span class="task-number">17</span>
+          <span class="task-title">VR0.21 · 가로선 한 장과 가로·세로 두 장 비교</span>
+          <span class="task-status active">● 실험 완료 · 한 장 재현 통과, 두 방향 미통과</span>
+        </summary>
+        <div class="accordion-body">
+          <p class="task-updated">
+            내용 업데이트 · <time datetime="2026-11-22T19:56+09:00">2026-11-22 19:56 KST</time>
+          </p>
+          <p>
+            <strong>가로선 한 장을 반복해서 보여 주자, 800스텝에서 세 번 모두 한 획이 나왔습니다.</strong>
+            같은 위치와 굵기의 가로·세로 두 장을 보여 준 별도 실험에서는 요청한 방향의 획이 보였지만,
+            주변에 짧은 조각이 남았습니다. 두 실험 모두 같은 초기 가중치에서 독립적으로 시작했고,
+            정답을 입력으로 주지 않고 무작위 잡음에서 그림을 만들었습니다.
+          </p>
+          <figure>
+            <a href="../assets/images/pipeline/jit-mini-v021-controls.webp">
+              <img
+                src="../assets/images/pipeline/jit-mini-v021-controls.webp"
+                alt="800스텝에서 정답과 세 시드의 실제 이미지를 비교. 한 장 학습은 가로선 3개 모두 통과했지만, 두 장 학습의 가로와 세로 요청은 주변 조각 때문에 모두 미통과했습니다."
+                width="750"
+                height="638"
+                loading="lazy"
+                style="display:block;width:100%;max-width:750px;height:auto"
+              />
+            </a>
+            <figcaption>
+              실제 생성 PNG를 보정하지 않고 배치했습니다. 두 장 학습에서도 가로와 세로를
+              한 이미지에 함께 그리게 한 것이 아니라, 각각 한 획씩 요청했습니다. 이미지를 누르면 크게 볼 수 있습니다.
+            </figcaption>
+          </figure>
+          <div class="table-wrap" role="region" aria-label="VR0.21 스텝별 자동 검수" tabindex="0">
+            <table>
+              <caption>조건마다 같은 세 시드를 사용했습니다. 통과 수는 한 획 자동 검수 결과입니다.</caption>
+              <thead>
+                <tr>
+                  <th scope="col">학습 구성과 생성 요청</th>
+                  <th scope="col">200스텝</th>
+                  <th scope="col">400스텝</th>
+                  <th scope="col">800스텝</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">한 장 학습 · 가로 요청</th><td>0/3</td><td>0/3</td><td>3/3</td></tr>
+                <tr><th scope="row">두 장 학습 · 가로 요청</th><td>0/3</td><td>0/3</td><td>0/3</td></tr>
+                <tr><th scope="row">두 장 학습 · 세로 요청</th><td>0/3</td><td>0/3</td><td>0/3</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            한 장 학습도 통과한 이미지 배경에 옅은 줄무늬가 보입니다. 자동 검수 통과는 배경의
+            모든 흔적이 없어졌다는 뜻이 아닙니다. 이번 시험은 학습에 나온 중앙선만 평가했습니다.
+            새 위치·굵기·각도에서 그릴 수 있는지, 왜 두 장에서 조각이 남는지는 아직 확인하지 못했습니다.
+          </p>
+          <h3>이전 결과를 그대로 다시 만드는 진단</h3>
+          <p>
+            <a href="#jit-mini-v020">VR0.20</a> S1 체크포인트에서 이전 가로선 PNG 3장을 픽셀 단위로
+            다시 만들고 중간 이미지와 모델의 예측을 저장했습니다. 이전 결과와 같다는 뜻이지,
+            가로선 품질이 좋아졌다는 뜻은 아닙니다. 정답에 일부 잡음을 섞어 복원하는 진단도 별도로
+            했으며, 순수 잡음에서 새 그림을 만든 결과와 합치지 않았습니다.
+          </p>
+          <h3>다음 실험 · VR0.30 계획</h3>
+          <p>
+            가로선 재현에 성공한 모델에 세로선을 얼마나 자주 보여 줘야 가로도 유지되는지 확인할
+            계획입니다. 같은 가로선 모델에서 가로:세로 노출 비율을 0:1, 1:1, 1:4로 나누어 비교하고,
+            별도로 가로·세로 두 장 학습본은 기존 방식 그대로 이어갑니다.
+            각 분기의 추가 학습량은 800스텝으로 맞출 예정입니다.
+          </p>
+        </div>
+      </details>
+
+      <details
+        class="task-accordion active"
         id="jit-mini-v020"
         data-task-number="16"
         data-task-order="160"
-        open
       >
         <summary>
           <span class="task-number">16</span>
