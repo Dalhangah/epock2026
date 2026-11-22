@@ -37,7 +37,7 @@
         </div>
       </nav>
     </header>
-    <main data-task-default="new" id="main" data-new-task="jit-mini-v004" data-next-task="pilot-next">
+    <main data-task-default="new" id="main" data-new-task="jit-mini-v020" data-next-task="pilot-next">
       <nav aria-label="현재 위치" class="breadcrumbs sr-only">
         <ol>
           <li><a href="../index.html">홈</a></li>
@@ -49,10 +49,10 @@
         <p class="eyebrow sr-only">PROJECT PROGRESS / 04</p>
         <h1 class="sr-only">파이프라인 제작</h1>
         <p class="large">각 도구를 하나의 흐름으로 잇습니다.</p>
-        <span class="label">VR0.04 · 세 모델 생성 비교 · 각도 반응 확인, 품질 검수 미통과</span>
+        <span class="label">VR0.20 · 직선 다양성 실험 · 한 획 검수 미통과</span>
         <p class="caption">
-          2026.11.21 업데이트 · 세 실험 모델의 실제 생성 이미지를 비교했습니다.
-          각도 조건에 대한 반응과 이미지 품질을 구분하고, VR0.05는 후속 진단 코드 제공 단계로 기록합니다.
+          2026.11.22 업데이트 · 같은 JiT-mini 모델로 직선 학습 세 가지를 비교했습니다.
+          일부 결과에서 방향은 바뀌었지만, 원하는 자리에 끊기지 않은 한 획은 확인하지 못했습니다.
         </p>
       </div>
       <p class="accordion-help">
@@ -62,10 +62,98 @@
       </p>
       <details
         class="task-accordion active"
+        id="jit-mini-v020"
+        data-task-number="16"
+        data-task-order="160"
+        open
+      >
+        <summary>
+          <span class="task-number">16</span>
+          <span class="task-title">VR0.20 · 한 줄부터 교차까지, 직선 학습 세 가지 비교</span>
+          <span class="task-status active">● 실행 완료 · 생성 검수 미통과</span>
+        </summary>
+        <div class="accordion-body">
+          <p class="task-updated">
+            내용 업데이트 · <time datetime="2026-11-22T19:41+09:00">2026-11-22 19:41 KST</time>
+          </p>
+          <p>
+            <strong>가로를 요청하면 가로 조각, 세로를 요청하면 세로 조각이 나왔습니다.
+            하지만 원하는 자리에 이어진 한 획은 만들지 못했습니다.</strong>
+            이번에는 <a href="#jit-mini-v004">VR0.04의 A/B/C 비교</a>를 반복한 것이 아니라,
+            C 계열 JiT-mini에서 학습에 보여 주는 직선의 종류와 배치를 바꿨습니다.
+            세 실험은 같은 초기 가중치에서 독립적으로 시작해 각각 800스텝을 학습했습니다.
+          </p>
+          <figure>
+            <a href="../assets/images/pipeline/jit-mini-v020-comparison.webp">
+              <img
+                src="../assets/images/pipeline/jit-mini-v020-comparison.webp"
+                alt="같은 시드 111로 생성한 직선 비교. S1과 S2는 가로·세로 조건에 따라 조각의 방향이 바뀌지만 획이 이어지지 않습니다. S3는 조건이 달라도 비슷한 얼룩이 나옵니다."
+                width="1040"
+                height="1500"
+                loading="lazy"
+                style="display:block;width:100%;max-width:780px;height:auto"
+              />
+            </a>
+            <figcaption>
+              왼쪽은 정답, 오른쪽은 같은 시작 노이즈(시드 111)로 만든 세 실험의 생성 결과입니다.
+              원본 128×128 PNG를 보간 없이 확대했으며, 대비 보정이나 후처리는 하지 않았습니다.
+              이미지를 누르면 크게 볼 수 있습니다.
+            </figcaption>
+          </figure>
+          <div class="table-wrap" role="region" aria-label="VR0.20 학습 구성과 결과" tabindex="0">
+            <table>
+              <caption>각 실험은 800스텝, 배치 크기 4로 학습했습니다. 통과 수는 세 시드의 자동 검수 결과입니다.</caption>
+              <thead>
+                <tr>
+                  <th scope="col">실험</th>
+                  <th scope="col">학습 구성</th>
+                  <th scope="col">자동 검수</th>
+                  <th scope="col">이미지에서 확인한 점</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">S1 · 선 하나</th>
+                  <td>6유형, 서로 다른 이미지 6장</td>
+                  <td>0/63</td>
+                  <td>방향에 반응하지만 획이 끊겼습니다. 처음 보는 위치로 옮기라는 요청에서는 세 시드 모두 어두운 픽셀의 위치가 바뀌지 않았습니다.</td>
+                </tr>
+                <tr>
+                  <th scope="row">S2 · 떨어진 두 선 추가</th>
+                  <td>9유형, 서로 다른 이미지 9장</td>
+                  <td>0/90</td>
+                  <td>떨어진 가로·세로가 각각 보이는 결과도 있었지만, 가장 가까운 두 샘플에서조차 어두운 픽셀의 약 46~47%가 목표 선 주변 밖에 남았습니다.</td>
+                </tr>
+                <tr>
+                  <th scope="row">S3 · 교차와 위치 변형 추가</th>
+                  <td>12유형, 서로 다른 이미지 96장</td>
+                  <td>0/117</td>
+                  <td>시드를 고정하고 중앙 가로와 중앙 세로를 비교하니 어두운 영역의 겹침이 92~95%였습니다. 학습한 교차도 십자 형태로 재현되지 않았습니다.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            <strong>총 270장 중 0장 통과.</strong> 선의 방향에 반응하는 것과 선을 정확히 그리는 것은
+            다른 결과입니다. 세 실험은 평가 조건의 범위가 서로 다릅니다. 또한 S3는 선 유형과
+            유형당 위치 변형을 동시에 늘렸기 때문에, 이번 결과만으로 어느 변화가 영향을 주었는지
+            또는 모델이 학습할 수 있는 유형의 한계가 어디인지 판단할 수 없습니다.
+          </p>
+          <h3>다음 실험 · 학습을 늘리기 전에 한 획부터</h3>
+          <ol>
+            <li>기존 S1 체크포인트를 사용해 모델이 예측한 깨끗한 이미지와 생성 중간 이미지를 나란히 저장합니다. 이 단계에서는 추가로 학습하지 않습니다.</li>
+            <li>같은 설정에서 굵은 중앙 가로선 한 장을 먼저 학습하고, 통과하면 가로·세로 두 장을 독립 학습합니다.</li>
+            <li>세 시드에서 이어진 한 획과 방향·위치·굵기·잔상을 확인한 뒤, 위치나 굵기 같은 조건을 하나씩 추가합니다.</li>
+          </ol>
+          <p class="caption">위 항목은 후속 검증 계획입니다. 이 기록에서 확인한 실행 결과는 VR0.20까지입니다.</p>
+        </div>
+      </details>
+
+      <details
+        class="task-accordion active"
         id="jit-mini-v004"
         data-task-number="15"
         data-task-order="150"
-        open
       >
         <summary>
           <span class="task-number">15</span>
@@ -1571,7 +1659,7 @@
         ><a href="#main">맨 위로 ↑</a>
       </div>
       <p class="footnote">
-        사이트 내용 업데이트 2026.11.21 · 연구 자료의 기준일과 상태는 각 항목에 표시합니다.
+        사이트 내용 업데이트 2026.11.22 · 연구 자료의 기준일과 상태는 각 항목에 표시합니다.
       </p>
     </footer>
     <script src="../assets/task-order.js?v=3"></script>
