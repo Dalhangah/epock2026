@@ -1,10 +1,10 @@
 :root {
   color-scheme: light;
-  --paper: #faf9f6;
-  --ink: #20201e;
+  --paper: #fff0d9;
+  --ink: #072e49;
   --muted: #66645d;
   --line: #d9d6cf;
-  --accent: #b34c16;
+  --accent: #b53c08;
 }
 * {
   box-sizing: border-box;
@@ -298,3 +298,29 @@ footer {
     margin-left: 10px;
   }
 }
+
+/* The two masks partition one supplied transparent artwork without redrawing type. */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.hero { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(250px, 1fr); align-items: center; gap: 42px; padding: 32px 0 40px; }
+.poster-stage { position: relative; width: 100%; aspect-ratio: 1086 / 1650; isolation: isolate; }
+.poster-graphics { display: block; width: 100%; height: auto; animation: poster-background 700ms ease-out both; }
+.poster-layer { position: absolute; inset: 0 0 auto; width: 100%; aspect-ratio: 1086 / 1448; }
+.poster-layer img { display: block; width: 100%; height: auto; }
+.poster-logo { clip-path: polygon(0 0,100% 0,100% 32%,0 38%); animation: poster-enter 650ms cubic-bezier(.2,.7,.2,1) 120ms both; }
+.poster-coming { clip-path: polygon(0 38%,100% 32%,100% 100%,0 100%); animation: poster-enter 750ms cubic-bezier(.2,.7,.2,1) 320ms both; }
+.hero-copy { text-align: left; }
+.hero-copy .question { font-size: clamp(21px,2.4vw,29px); margin: 18px 0; }
+.poster-credit { font-size: 11px; color: var(--muted); margin: 28px 0 10px; }
+.poster-archive-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; gap: 12px; }
+@keyframes poster-enter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@keyframes poster-background { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 760px) {
+  .hero { display: block; padding: 16px 0 30px; }
+  .poster-stage { max-width: 540px; margin: auto; }
+  .hero-copy { text-align: center; margin: 24px 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .poster-graphics, .poster-layer { animation: none; }
+}
+
+.poster-coming[hidden] { display: none; }

@@ -41,6 +41,9 @@ if (typeof document !== "undefined") {
           ? "함께 만날 날을 기다립니다."
           : "EPOCK2026";
     document.getElementById("artwork-link").hidden = state.phase !== "open";
+    document.querySelectorAll("[data-coming-soon]").forEach((element) => {
+      element.hidden = state.phase === "pending" || state.phase === "open";
+    });
     if (state.phase !== lastPhase) {
       document.getElementById("release-status").textContent =
         state.phase === "pending"
